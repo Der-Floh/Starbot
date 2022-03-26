@@ -13,7 +13,7 @@ namespace Discord_I.Rule_Suggestions_Bot.Modules
         [Command("ping")]
         public async Task HandlePingCommand()
         {
-            await Context.Message.ReplyAsync("PING!");
+            await Context.Message.ReplyAsync("Stop pinging me!");
         }
     }
 }

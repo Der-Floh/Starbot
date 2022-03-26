@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Discord_I.Rule_Suggestions_Bot;
 using Discord_I.Rule_Suggestions_Bot.Modules;
+using Discord_I.Rule_Suggestions_Bot.Log;
 
 //new DiscordBot().MainAsync().GetAwaiter().GetResult();
 
@@ -17,9 +18,7 @@ namespace SuggestionsBot
 {
     class Program
     {
-        private DiscordSocketClient client;
-        private CommandService commands;
-        private IServiceProvider services;
+        private DiscordSocketClient _client;
 
         public static Task Main() => new Program().MainAsync();
 
@@ -39,11 +38,15 @@ namespace SuggestionsBot
                     GatewayIntents = GatewayIntents.AllUnprivileged,
                     AlwaysDownloadUsers = true,
                 }))
+                .AddTransient<ConsoleLogger>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
                 .AddSingleton<InteractionHandler>()
-                .AddSingleton(x => new CommandService())
-                .AddSingleton<PrefixHandler>()
-                )
+                .AddSingleton(x => new CommandService(new CommandServiceConfig
+                {
+                    LogLevel = LogSeverity.Debug,
+                    DefaultRunMode = Discord.Commands.RunMode.Async
+                }))
+                .AddSingleton<PrefixHandler>())
                 .Build();
 
             await RunAsync(host);
@@ -54,20 +57,31 @@ namespace SuggestionsBot
             using IServiceScope servicScope = host.Services.CreateScope();
             IServiceProvider provider = servicScope.ServiceProvider;
 
-            var _client = provider.GetRequiredService<DiscordSocketClient>();
             var sCommands = provider.GetRequiredService<InteractionService>();
-            await provider.GetRequiredService<InteractionHandler>().InitializeAsync();
+            _client = provider.GetRequiredService<DiscordSocketClient>();
             var config = provider.GetRequiredService<IConfigurationRoot>();
+
+            await provider.GetRequiredService<InteractionHandler>().InitializeAsync();
+            
             var pCommands = provider.GetRequiredService<PrefixHandler>();
             pCommands.AddModule<PrefixModule>();
             await pCommands.InitializeAsync();
 
+            //_client.Log += _ => provider.GetRequiredService<ConsoleLogger>().Log(_);
             _client.Log += LogAsync;
+            //sCommands.Log += _ => provider.GetRequiredService<ConsoleLogger>().Log(_);
             sCommands.Log += LogAsync;
 
             _client.Ready += async () =>
             {
-                await sCommands.RegisterCommandsToGuildAsync(UInt64.Parse(config["testGuild"]));
+                if (IsDebug())
+                {
+                    await sCommands.RegisterCommandsToGuildAsync(UInt64.Parse(config["testGuild"]));
+                }
+                else
+                {
+                    await sCommands.RegisterCommandsGloballyAsync(true);
+                }
             };
             await _client.LoginAsync(TokenType.Bot, config["token"]);
             await _client.StartAsync();
@@ -96,6 +110,15 @@ namespace SuggestionsBot
             }
             Console.WriteLine(msg.ToString());
             Console.ResetColor();
+        }
+
+        static bool IsDebug()
+        {
+#if DEBUG
+            return true;
+#else
+            return false;
+#endif
         }
     }
 }
