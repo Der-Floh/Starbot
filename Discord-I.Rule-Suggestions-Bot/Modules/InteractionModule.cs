@@ -25,5 +25,10 @@ namespace Discord_I.Rule_Suggestions_Bot.Modules
             await _logger.Log(new LogMessage(LogSeverity.Info, "PingModule : Ping", $"User: {Context.User.Username}, Command: ping", null));
             await RespondAsync("Stop pinging me!");
         }
+
+        private async Task SendError()
+        {
+            await RespondAsync("```diff\n- The command resolved in an error!\n```");
+        }
     }
 }
