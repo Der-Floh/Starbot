@@ -1,4 +1,4 @@
-﻿using Discord_I.Rule_Suggestions_Bot.Types;
+﻿using Starbot.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Discord_I.Rule_Suggestions_Bot
+namespace Starbot
 {
     public class JsonHandler
     {

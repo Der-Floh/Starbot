@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Discord_I.Rule_Suggestions_Bot.Types;
+using Starbot.Types;
 
-namespace Discord_I.Rule_Suggestions_Bot.Modules
+namespace Starbot.Modules
 {
     public class PrefixModule : ModuleBase<SocketCommandContext>
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord-I.Rule-Suggestions-Bot", "Discord-I.Rule-Suggestions-Bot\Discord-I.Rule-Suggestions-Bot.csproj", "{1123B70C-0D86-49C8-8055-53B6C921D820}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starbot", "Starbot\Starbot.csproj", "{1123B70C-0D86-49C8-8055-53B6C921D820}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

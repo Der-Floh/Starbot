@@ -10,7 +10,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 
-namespace Discord_I.Rule_Suggestions_Bot
+namespace Starbot
 {
     public class PrefixHandler
     {

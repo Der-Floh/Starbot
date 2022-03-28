@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Discord_I.Rule_Suggestions_Bot.Types
+namespace Starbot.Types
 {
-    public class Baby
+    public class Item
     {
         public string name { get; set; }
         public int cost { get; set; }
-        public int hp { get; set; }
-        public string type { get; set; }
-        public int damage { get; set; }
-        public float firerate { get; set; }
-        public float recharge { get; set; }
-        public string abilities { get; set; }
+        public int tier { get; set; }
+        public string description { get; set; }
+        public string effect { get; set; }
 
         public string creator { get; set; }
         public bool verified { get; set; }

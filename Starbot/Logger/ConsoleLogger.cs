@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 
-namespace Discord_I.Rule_Suggestions_Bot.Log
+namespace Starbot.Log
 {
     public class ConsoleLogger : Logger
     {

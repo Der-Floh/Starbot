@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Interactions;
-using Discord_I.Rule_Suggestions_Bot.Log;
+using Starbot.Log;
 
-namespace Discord_I.Rule_Suggestions_Bot.Modules
+namespace Starbot.Modules
 {
     public class InteractionModule : InteractionModuleBase<SocketInteractionContext>
     {

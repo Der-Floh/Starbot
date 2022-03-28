@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Discord_I.Rule_Suggestions_Bot.Log
+namespace Starbot.Log
 {
     public interface ILogger
     {

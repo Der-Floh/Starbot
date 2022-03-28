@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Discord_I.Rule_Suggestions_Bot;
-using Discord_I.Rule_Suggestions_Bot.Modules;
-using Discord_I.Rule_Suggestions_Bot.Log;
+using Starbot;
+using Starbot.Modules;
+using Starbot.Log;
 
 //new DiscordBot().MainAsync().GetAwaiter().GetResult();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using static System.Guid;
 
-namespace Discord_I.Rule_Suggestions_Bot.Log
+namespace Starbot.Log
 {
     public abstract class Logger : ILogger
     {

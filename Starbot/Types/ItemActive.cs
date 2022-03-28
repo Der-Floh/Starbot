@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Discord_I.Rule_Suggestions_Bot.Types
+namespace Starbot.Types
 {
-    public class Item
+    public class ItemActive
     {
         public string name { get; set; }
-        public int cost { get; set; }
-        public int tier { get; set; }
         public string description { get; set; }
         public string effect { get; set; }
 

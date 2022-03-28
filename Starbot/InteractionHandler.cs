@@ -8,7 +8,7 @@ using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 
-namespace Discord_I.Rule_Suggestions_Bot
+namespace Starbot
 {
     public class InteractionHandler
     {
