@@ -8,7 +8,7 @@ namespace Starbot.Types
 {
     public class Item
     {
-        public int Id { get; set; }
+        public ulong id { get; set; }
         public string name { get; set; }
         public int cost { get; set; }
         public int tier { get; set; }

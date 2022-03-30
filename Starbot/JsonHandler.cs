@@ -55,7 +55,7 @@ namespace Starbot
 
         public async Task AddItemActive(ItemActive itemActive)
         {
-            string fileName = @"Suggestion-Files\Item-Active-Ideas.json";
+            string fileName = @"Suggestion-Files\ItemActive-Ideas.json"; //changed item-active
             List<ItemActive> _itemActive = new List<ItemActive>();
             if (File.Exists(fileName))
             {
@@ -115,6 +115,108 @@ namespace Starbot
                 }
             }
             return ideaCount;
+        }
+
+        public async Task SetRating(ulong ideaId, string type, int rating)
+        {
+            //Console.WriteLine("ID= " + ideaId + "  Type= " + type  + "  Rating= " + rating);
+            switch (type)
+            {
+                case "Baby": await SetRatingBaby(ideaId, rating); break;
+                case "Item": await SetRatingItem(ideaId, rating); break;
+                case "ItemActive": await SetRatingItemActive(ideaId, rating); break;
+                case "Enemy": await SetRatingEnemy(ideaId, rating); break;
+            }
+            Console.WriteLine("Rating = " + rating);
+        }
+
+        private async Task SetRatingBaby(ulong id, int rating)
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Baby> _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Baby baby in _baby)
+                {
+                    if (baby.id == id)
+                    {
+                        baby.rating = rating;
+                        var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                        using FileStream createStream = File.Create(fileName);
+                        await JsonSerializer.SerializeAsync(createStream, _baby, jsonOptions);
+                        await createStream.DisposeAsync();
+                        return;
+                    }
+                }
+            }
+        }
+        private async Task SetRatingItem(ulong id, int rating)
+        {
+            string fileName = @"Suggestion-Files\Item-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Item> _item = await JsonSerializer.DeserializeAsync<List<Item>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Item item in _item)
+                {
+                    if (item.id == id)
+                    {
+                        item.rating = rating;
+                        var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                        using FileStream createStream = File.Create(fileName);
+                        await JsonSerializer.SerializeAsync(createStream, _item, jsonOptions);
+                        await createStream.DisposeAsync();
+                        return;
+                    }
+                }
+            }
+        }
+        private async Task SetRatingItemActive(ulong id, int rating)
+        {
+            string fileName = @"Suggestion-Files\ItemActive-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<ItemActive> _itemActive = await JsonSerializer.DeserializeAsync<List<ItemActive>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (ItemActive itemActive in _itemActive)
+                {
+                    if (itemActive.id == id)
+                    {
+                        itemActive.rating = rating;
+                        var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                        using FileStream createStream = File.Create(fileName);
+                        await JsonSerializer.SerializeAsync(createStream, _itemActive, jsonOptions);
+                        await createStream.DisposeAsync();
+                        return;
+                    }
+                }
+            }
+        }
+        private async Task SetRatingEnemy(ulong id, int rating)
+        {
+            string fileName = @"Suggestion-Files\Enemy-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Enemy> _enemy = await JsonSerializer.DeserializeAsync<List<Enemy>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Enemy enemy in _enemy)
+                {
+                    if (enemy.id == id)
+                    {
+                        enemy.rating = rating;
+                        var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                        using FileStream createStream = File.Create(fileName);
+                        await JsonSerializer.SerializeAsync(createStream, _enemy, jsonOptions);
+                        await createStream.DisposeAsync();
+                        return;
+                    }
+                }
+            }
         }
     }
 }

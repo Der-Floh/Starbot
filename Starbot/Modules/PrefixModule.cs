@@ -39,7 +39,7 @@ namespace Starbot.Modules
                 int parsedInt = 0;
                 float parsedFloat = 0;
                 Baby baby = new Baby();
-                baby.Id = await jsonHandler.GetIdeaCount("Baby") + 1;
+                baby.id = Context.Message.Id;
                 baby.name = stats[0];
                 int.TryParse(stats[1], out parsedInt);
                 baby.cost = parsedInt;
@@ -59,18 +59,16 @@ namespace Starbot.Modules
                 baby.rating = 0;
                 baby.date = DateTime.Now.Date;
 
+                //await Context.Message.ReplyAsync("Not fully implemented yet");
+
+                IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Baby");
+
+                baby.id = botMessage.Id;
                 await jsonHandler.AddBaby(baby);
 
-                await Context.Message.ReplyAsync("Not fully implemented yet");
-
-                IUserMessage userMessage = await SendEmbedIdea(statNames, stats, baby.Id);
-
-                await userMessage.AddReactionAsync(new Emoji("👍"));
-                await userMessage.AddReactionAsync(new Emoji("👎"));
-                await userMessage.AddReactionAsync(new Emoji("💾"));
-                //await Context.Message.AddReactionAsync(new Emoji("💾"));
-
-                //await Context.Message.ReplyAsync(statMsg);
+                await botMessage.AddReactionAsync(new Emoji("👍"));
+                await botMessage.AddReactionAsync(new Emoji("👎"));
+                await botMessage.AddReactionAsync(new Emoji("💾"));
             }
             catch (Exception ex)
             {
@@ -94,38 +92,36 @@ namespace Starbot.Modules
                 {
                     statMsg += statNames[i] + ": " + stats[i] + "\n";
                 }
-                /*
-                Item item = new Item
-                {
-                    name = stats[0],
-                    cost = Int32.Parse(stats[1]),
-                    tier = Int32.Parse(stats[2]),
-                    description = stats[3],
-                    effect = stats[4],
 
-                    creator = Context.Message.Author.Username,
-                    verified = false,
-                    rating = 0,
-                    date = DateTime.Today
-                };*/
+                JsonHandler jsonHandler = new JsonHandler();
+
+                int parsedInt = 0;
                 Item item = new Item();
+                item.id = Context.Message.Id;
                 item.name = stats[0];
-                item.cost = Int32.Parse(stats[1]);
-                item.tier = Int32.Parse(stats[2]);
+                int.TryParse(stats[1], out parsedInt);
+                item.cost = parsedInt;
+                int.TryParse(stats[2], out parsedInt);
+                item.tier = parsedInt;
                 item.description = stats[3];
                 item.effect = stats[4];
 
-                JsonHandler jsonHandler = new JsonHandler();
+                item.creator = Context.Message.Author.Username;
+                item.verified = false;
+                item.rating = 0;
+                item.date = DateTime.Now.Date;
+
+                //await Context.Message.ReplyAsync("Not fully implemented yet");
+
+                await Context.Message.DeleteAsync();
+                IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Item");
+
+                item.id = botMessage.Id;
                 await jsonHandler.AddItem(item);
 
-                await Context.Message.AddReactionAsync(new Emoji("👍"));
-                await Context.Message.AddReactionAsync(new Emoji("👎"));
-                await Context.Message.AddReactionAsync(new Emoji("💾"));
-                //Emote emote = Emote.Parse("<:rb:943432569465221130>");
-                //Context.Message.AddReactionAsync(emote);
-
-                await Context.Message.ReplyAsync("Not fully implemented yet");
-                await Context.Message.ReplyAsync(statMsg);
+                await botMessage.AddReactionAsync(new Emoji("👍"));
+                await botMessage.AddReactionAsync(new Emoji("👎"));
+                await botMessage.AddReactionAsync(new Emoji("💾"));
             }
             catch (Exception ex)
             {
@@ -177,11 +173,11 @@ namespace Starbot.Modules
             return stats;
         }
 
-        private async Task<IUserMessage> SendEmbedIdea(string[] statNames, string[] stats, int id)
+        private async Task<IUserMessage> SendEmbedIdea(string[] statNames, string[] stats, string type)
         {
             EmbedBuilder builder = new EmbedBuilder();
 
-            builder.WithTitle(id + " - " + stats[0]);
+            builder.WithTitle(type + " - " + stats[0]);
             for (int i = 0; i < statNames.Length; i++)
             {
                 builder.AddField(statNames[i] + ": ", stats[i], true);

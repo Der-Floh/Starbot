@@ -8,7 +8,7 @@ namespace Starbot.Types
 {
     public class Baby
     {
-        public int Id { get; set; }
+        public ulong id { get; set; }
         public string name { get; set; }
         public int cost { get; set; }
         public int hp { get; set; }

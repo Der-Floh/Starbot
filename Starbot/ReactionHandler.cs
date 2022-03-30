@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Starbot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,27 +26,27 @@ namespace Discord_I.Rule_Suggestions_Bot
 
         private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
         {
-            if (message.GetOrDownloadAsync().Result.Author.IsBot) return;
+            if (reaction.User.Value.IsBot) return;
+            
 
             IUserMessage reactionMsg = message.GetOrDownloadAsync().Result;
-            var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
             int thumbsUpCount = 0;
             int thumbsDownCount = 0;
-            switch ((reaction.Emote.Name))
+            if (reaction.Emote.Name == "👍" || reaction.Emote.Name == "👎")
             {
-                case "👍":
-                    emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
-                    thumbsUpCount = emotes.Count();
-                    Console.WriteLine("Thumbs up: " + thumbsUpCount);
-                    break;
-                case "👎":
-                    emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 1000).FlattenAsync();
-                    thumbsDownCount = emotes.Count();
-                    Console.WriteLine("Thumbs down: " + thumbsDownCount);
-                    break;
+                var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
+                thumbsUpCount = emotes.Count();
+                
+                emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 1000).FlattenAsync();
+                thumbsDownCount = emotes.Count();
             }
             int rating = thumbsUpCount - thumbsDownCount;
-            //var emotes = await message.GetOrDownloadAsync().Result.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
+
+            IEmbed[] embed = reactionMsg.Embeds.ToArray();
+            string type = embed[0].ToString().Substring(0, embed[0].ToString().IndexOf(" "));
+
+            JsonHandler jsonHandler = new JsonHandler();
+            await jsonHandler.SetRating(reactionMsg.Id, type, rating);
         }
     }
 }
