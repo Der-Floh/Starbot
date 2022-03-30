@@ -34,34 +34,43 @@ namespace Starbot.Modules
                     statMsg += statNames[i] + ": " + stats[i] + "\n";
                 }
 
-                Baby baby = new Baby
-                {
-                    name = stats[0],
-                    cost = Int32.Parse(stats[1]),
-                    hp = Int32.Parse(stats[2]),
-                    type = stats[3],
-                    damage = Int32.Parse(stats[4]),
-                    firerate = float.Parse(stats[5]),
-                    recharge = float.Parse(stats[6]),
-                    abilities = stats[7],
-
-                    creator = Context.Message.Author.Username,
-                    verified = false,
-                    rating = 0,
-                    date = DateTime.Today
-                };
-
                 JsonHandler jsonHandler = new JsonHandler();
+
+                int parsedInt = 0;
+                float parsedFloat = 0;
+                Baby baby = new Baby();
+                baby.Id = await jsonHandler.GetIdeaCount("Baby") + 1;
+                baby.name = stats[0];
+                int.TryParse(stats[1], out parsedInt);
+                baby.cost = parsedInt;
+                int.TryParse(stats[2], out parsedInt);
+                baby.hp = parsedInt;
+                baby.type = stats[3];
+                int.TryParse(stats[2], out parsedInt);
+                baby.damage = parsedInt;
+                float.TryParse(stats[2], out parsedFloat);
+                baby.firerate = parsedFloat;
+                float.TryParse(stats[2], out parsedFloat);
+                baby.recharge = parsedFloat;
+                baby.abilities = stats[7];
+
+                baby.creator = Context.Message.Author.Username;
+                baby.verified = false;
+                baby.rating = 0;
+                baby.date = DateTime.Now.Date;
+
                 await jsonHandler.AddBaby(baby);
 
-                await Context.Message.AddReactionAsync(new Emoji("👍"));
-                await Context.Message.AddReactionAsync(new Emoji("👎"));
-                await Context.Message.AddReactionAsync(new Emoji("💾"));
-                //Emote emote = Emote.Parse("<:rb:943432569465221130>");
-                //Context.Message.AddReactionAsync(emote);
-
                 await Context.Message.ReplyAsync("Not fully implemented yet");
-                await Context.Message.ReplyAsync(statMsg);
+
+                IUserMessage userMessage = await SendEmbedIdea(statNames, stats, baby.Id);
+
+                await userMessage.AddReactionAsync(new Emoji("👍"));
+                await userMessage.AddReactionAsync(new Emoji("👎"));
+                await userMessage.AddReactionAsync(new Emoji("💾"));
+                //await Context.Message.AddReactionAsync(new Emoji("💾"));
+
+                //await Context.Message.ReplyAsync(statMsg);
             }
             catch (Exception ex)
             {
@@ -146,7 +155,7 @@ namespace Starbot.Modules
                     //last = text.LastIndexOf(statNames[i + 1]);
                     for (int j = i + 1; j < statNames.Length; j++)
                     {
-                        //last = text.Length;
+                        last = text.Length;
                         if (text.Contains(statNames[j] + "="))
                         {
                             last = text.LastIndexOf(statNames[j] + "=");
@@ -166,6 +175,22 @@ namespace Starbot.Modules
             }
 
             return stats;
+        }
+
+        private async Task<IUserMessage> SendEmbedIdea(string[] statNames, string[] stats, int id)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle(id + " - " + stats[0]);
+            for (int i = 0; i < statNames.Length; i++)
+            {
+                builder.AddField(statNames[i] + ": ", stats[i], true);
+            }
+            //builder.WithThumbnailUrl("http://...");
+
+            builder.WithColor(Color.Red);
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+            return userMessage;
         }
     }
 }

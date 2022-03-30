@@ -86,5 +86,35 @@ namespace Starbot
             await JsonSerializer.SerializeAsync(createStream, _enemy, jsonOptions);
             await createStream.DisposeAsync();
         }
+
+        public async Task<int> GetIdeaCount(string type)
+        {
+            string fileName = @"Suggestion-Files\" + type + "-Ideas.json";
+            int ideaCount = -1;
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                switch (type)
+                {
+                    case "Baby":
+                        List<Baby> _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
+                        ideaCount = _baby.Count;
+                        break;
+                    case "Item":
+                        List<Item> _item = await JsonSerializer.DeserializeAsync<List<Item>>(openStream);
+                        ideaCount = _item.Count;
+                        break;
+                    case "Item-Active":
+                        List<ItemActive> _itemActive = await JsonSerializer.DeserializeAsync<List<ItemActive>>(openStream);
+                        ideaCount = _itemActive.Count;
+                        break;
+                    case "Enemy":
+                        List<Enemy> _enemy = await JsonSerializer.DeserializeAsync<List<Enemy>>(openStream);
+                        ideaCount = _enemy.Count;
+                        break;
+                }
+            }
+            return ideaCount;
+        }
     }
 }

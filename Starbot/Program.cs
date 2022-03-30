@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Starbot;
 using Starbot.Modules;
 using Starbot.Log;
+using Discord_I.Rule_Suggestions_Bot;
 
 //new DiscordBot().MainAsync().GetAwaiter().GetResult();
 
@@ -46,7 +47,8 @@ namespace SuggestionsBot
                     LogLevel = LogSeverity.Debug,
                     DefaultRunMode = Discord.Commands.RunMode.Async
                 }))
-                .AddSingleton<PrefixHandler>())
+                .AddSingleton<PrefixHandler>()
+                .AddSingleton<ReactionHandler>())
                 .Build();
 
             await RunAsync(host);
@@ -66,6 +68,9 @@ namespace SuggestionsBot
             var pCommands = provider.GetRequiredService<PrefixHandler>();
             pCommands.AddModule<PrefixModule>();
             await pCommands.InitializeAsync();
+
+            var reactions = provider.GetRequiredService<ReactionHandler>();
+            reactions.InitializeAsync();
 
             //_client.Log += _ => provider.GetRequiredService<ConsoleLogger>().Log(_);
             _client.Log += LogAsync;
