@@ -20,173 +20,97 @@ namespace Starbot.Modules
             await Context.Message.ReplyAsync("Stop pinging me!");
         }
 
+        [Command("i-help")]
+        public async Task HandleHelpCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle("Help-Commandlist");
+
+            builder.AddField("!ping", "Sends a ping to the bot, to see if its online\n", false);
+
+            builder.AddField("!help-baby", "Shows you how you can add a new Baby suggestion", false);
+            builder.AddField("!help-item", "Shows you how you can add a new Item suggestion", false);
+            builder.AddField("!help-item-active", "Shows you how you can add a new Active Item suggestion", false);
+            builder.AddField("!help-enemy", "Shows you how you can add a new Enemy suggestion", false);
+
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("help-baby")]
+        public async Task HandleHelpBabyCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle("!idea-baby");
+
+            builder.AddField("Adds a new Baby idea by using the following syntax", "Name= \nCost= \nHP= \nType= \nDamage= \nFirerate= \nRecharge= \nAbilities= ", false);
+
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("help-item")]
+        public async Task HandleHelpItemCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle("!idea-item");
+
+            builder.AddField("Adds a new Item idea by using the following syntax", "Name= \nCost= \nTier= \nDescription= \nEffect= ", false);
+
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("help-item-active")]
+        public async Task HandleHelpItemActiveCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle("!idea-item-active");
+
+            builder.AddField("Adds a new Active Item idea by using the following syntax", "Name= \nDescription= \nEffect= ", false);
+
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("help-enemy")]
+        public async Task HandleHelpEnemyCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            builder.WithTitle("!idea-enemy");
+
+            builder.AddField("Adds a new Baby idea by using the following syntax", "Name= \nHP= \nType= \nDamage= \nFirerate= \nWalkspeed= \nAbilities= \nAppearance= ", false);
+
+            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
         [Command("idea-baby")]
         public async Task HandleBabyIdeaCommand([Remainder]string text)
         {
-            try
-            {
-                string[] statNames = { "Name", "Cost", "HP", "Type", "Damage", "Firerate", "Recharge", "Abilities" };
-                string[] stats = await GetIdeaStats(statNames, text);
-
-                string statMsg = "";
-                for (int i = 0; i < stats.Length; i++)
-                {
-                    statMsg += statNames[i] + ": " + stats[i] + "\n";
-                }
-
-                JsonHandler jsonHandler = new JsonHandler();
-
-                int parsedInt = 0;
-                float parsedFloat = 0;
-                Baby baby = new Baby();
-                baby.id = Context.Message.Id;
-                baby.name = stats[0];
-                int.TryParse(stats[1], out parsedInt);
-                baby.cost = parsedInt;
-                int.TryParse(stats[2], out parsedInt);
-                baby.hp = parsedInt;
-                baby.type = stats[3];
-                int.TryParse(stats[2], out parsedInt);
-                baby.damage = parsedInt;
-                float.TryParse(stats[2], out parsedFloat);
-                baby.firerate = parsedFloat;
-                float.TryParse(stats[2], out parsedFloat);
-                baby.recharge = parsedFloat;
-                baby.abilities = stats[7];
-
-                baby.creator = Context.Message.Author.Username;
-                baby.verified = false;
-                baby.rating = 0;
-                baby.date = DateTime.Now.Date;
-
-                //await Context.Message.ReplyAsync("Not fully implemented yet");
-
-                IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Baby");
-
-                baby.id = botMessage.Id;
-                await jsonHandler.AddBaby(baby);
-
-                await botMessage.AddReactionAsync(new Emoji("👍"));
-                await botMessage.AddReactionAsync(new Emoji("👎"));
-                await botMessage.AddReactionAsync(new Emoji("💾"));
-            }
-            catch (Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(ex);
-                Console.ResetColor();
-                SendError(ex);
-            }
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.NewIdea(text, "Baby");
         }
 
         [Command("idea-item")]
         public async Task HandleItemIdeaCommand([Remainder] string text)
         {
-            try
-            {
-                string[] statNames = { "Name", "Cost", "Tier", "Description", "Effect" };
-                string[] stats = await GetIdeaStats(statNames, text);
-
-                string statMsg = "";
-                for (int i = 0; i < stats.Length; i++)
-                {
-                    statMsg += statNames[i] + ": " + stats[i] + "\n";
-                }
-
-                JsonHandler jsonHandler = new JsonHandler();
-
-                int parsedInt = 0;
-                Item item = new Item();
-                item.id = Context.Message.Id;
-                item.name = stats[0];
-                int.TryParse(stats[1], out parsedInt);
-                item.cost = parsedInt;
-                int.TryParse(stats[2], out parsedInt);
-                item.tier = parsedInt;
-                item.description = stats[3];
-                item.effect = stats[4];
-
-                item.creator = Context.Message.Author.Username;
-                item.verified = false;
-                item.rating = 0;
-                item.date = DateTime.Now.Date;
-
-                //await Context.Message.ReplyAsync("Not fully implemented yet");
-
-                await Context.Message.DeleteAsync();
-                IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Item");
-
-                item.id = botMessage.Id;
-                await jsonHandler.AddItem(item);
-
-                await botMessage.AddReactionAsync(new Emoji("👍"));
-                await botMessage.AddReactionAsync(new Emoji("👎"));
-                await botMessage.AddReactionAsync(new Emoji("💾"));
-            }
-            catch (Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(ex);
-                Console.ResetColor();
-                SendError(ex);
-            }
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.NewIdea(text, "Item");
         }
 
-        private async Task SendError(Exception ex)
+        [Command("idea-item-active")]
+        public async Task HandleItemActiveIdeaCommand([Remainder] string text)
         {
-            await Context.Message.ReplyAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.NewIdea(text, "ItemActive");
         }
 
-        private async Task<string[]> GetIdeaStats(string[] statNames, string text)
+        [Command("idea-enemy")]
+        public async Task HandleEnemyIdeaCommand([Remainder] string text)
         {
-            int first = 0;
-            int last = 0;
-            string[] stats = new string[statNames.Length];
-
-            for (int i = 0; i < statNames.Length - 1; i++)
-            {
-                if (text.Contains(statNames[i]))
-                {
-                    first = text.IndexOf(statNames[i] + "=") + (statNames[i] + "=").Length;
-                    //last = text.LastIndexOf(statNames[i + 1]);
-                    for (int j = i + 1; j < statNames.Length; j++)
-                    {
-                        last = text.Length;
-                        if (text.Contains(statNames[j] + "="))
-                        {
-                            last = text.LastIndexOf(statNames[j] + "=");
-                            break;
-                        }
-                    }
-                    stats[i] = text.Substring(first, last - first);
-                    stats[i] = stats[i].Replace("\n", "");
-                }
-            }
-            if (text.Contains(statNames[statNames.Length - 1]))
-            {
-                first = text.IndexOf(statNames[statNames.Length - 1] + "=") + (statNames[statNames.Length - 1] + "=").Length;
-                last = text.Length;
-                stats[statNames.Length - 1] = text.Substring(first, last - first);
-                stats[statNames.Length - 1] = stats[statNames.Length - 1].Replace("\n", "");
-            }
-
-            return stats;
-        }
-
-        private async Task<IUserMessage> SendEmbedIdea(string[] statNames, string[] stats, string type)
-        {
-            EmbedBuilder builder = new EmbedBuilder();
-
-            builder.WithTitle(type + " - " + stats[0]);
-            for (int i = 0; i < statNames.Length; i++)
-            {
-                builder.AddField(statNames[i] + ": ", stats[i], true);
-            }
-            //builder.WithThumbnailUrl("http://...");
-
-            builder.WithColor(Color.Red);
-            IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
-            return userMessage;
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.NewIdea(text, "Enemy");
         }
     }
 }
