@@ -22,13 +22,19 @@ namespace Starbot.Modules
         [SlashCommand("ping", "Receive a ping message!")]
         public async Task HandlePingCommand()
         {
-            await _logger.Log(new LogMessage(LogSeverity.Info, "PingModule : Ping", $"User: {Context.User.Username}, Command: ping", null));
-            await RespondAsync("Stop pinging me!");
-        }
-
-        private async Task SendError()
-        {
-            await RespondAsync("```diff\n- The command resolved in an error!\n```");
+            try
+            {
+                await _logger.Log(new LogMessage(LogSeverity.Info, "PingModule : Ping", $"User: {Context.User.Username}, Command: ping", null));
+                await RespondAsync("Stop pinging me!");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
         }
     }
 }
