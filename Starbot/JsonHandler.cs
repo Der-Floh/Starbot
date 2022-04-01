@@ -130,6 +130,106 @@ namespace Starbot
             Console.WriteLine("Rating = " + rating);
         }
 
+        public async Task<Baby> GetIdeaBaby(ulong id)
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Baby> _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Baby baby in _baby)
+                {
+                    if (baby.id == id)
+                    {
+                        return baby;
+                    }
+                }
+            }
+            return null;
+        }
+        public async Task<Item> GetIdeaItem(ulong id)
+        {
+            string fileName = @"Suggestion-Files\Item-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Item> _item = await JsonSerializer.DeserializeAsync<List<Item>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Item item in _item)
+                {
+                    if (item.id == id)
+                    {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
+        public async Task<ItemActive> GetIdeaItemActive(ulong id)
+        {
+            string fileName = @"Suggestion-Files\ItemActive-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<ItemActive> _itemActive = await JsonSerializer.DeserializeAsync<List<ItemActive>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (ItemActive itemActive in _itemActive)
+                {
+                    if (itemActive.id == id)
+                    {
+                        return itemActive;
+                    }
+                }
+            }
+            return null;
+        }
+        public async Task<Enemy> GetIdeaEnemy(ulong id)
+        {
+            string fileName = @"Suggestion-Files\Enemy-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Enemy> _enemy = await JsonSerializer.DeserializeAsync<List<Enemy>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Enemy enemy in _enemy)
+                {
+                    if (enemy.id == id)
+                    {
+                        return enemy;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public async Task<Baby> GetBestRatedBaby(int ratingNo)
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            int bestRating = 0;
+            int secBestRating = 0;
+            Baby bestBaby = null;
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Baby> _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
+                await openStream.DisposeAsync();
+                foreach (Baby baby in _baby)
+                {
+                    if (baby.rating > bestRating)
+                    {
+                        bestRating = baby.rating;
+                        bestBaby = baby;
+                    }
+                    if (baby.rating > secBestRating && secBestRating < bestRating)
+                    {
+                        secBestRating = baby.rating;
+                    }
+                }
+            }
+            return bestBaby;
+        }
+
         private async Task SetRatingBaby(ulong id, int rating)
         {
             string fileName = @"Suggestion-Files\Baby-Ideas.json";
