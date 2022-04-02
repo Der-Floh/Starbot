@@ -25,6 +25,11 @@ namespace SuggestionsBot
 
         public async Task MainAsync()
         {
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Suggestion-Files"))
+            {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Suggestion-Files");
+            }
+
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("config.json", false, true)
@@ -90,6 +95,12 @@ namespace SuggestionsBot
             };
             await _client.LoginAsync(TokenType.Bot, config["token"]);
             await _client.StartAsync();
+
+            /*
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                await _client.SetStatusAsync(UserStatus.Offline);
+            }*/
 
             await Task.Delay(-1);
         }

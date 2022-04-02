@@ -55,16 +55,41 @@ namespace Starbot
                     }
                 }
                 else
-                {/*
+                {
                     switch (type)
                     {
-                        case "Baby": await GetIdeaByNameBaby(id); break;
-                        case "Item": await GetIdeaByNameItem(id); break;
-                        case "ItemActive": await GetIdeaByNameItemActive(id); break;
-                        case "Enemy": await GetIdeaByNameEnemy(id); break;
-                    }*/
+                        case "Baby": await GetIdeaByNameBaby(text); break;
+                        case "Item": await GetIdeaByNameItem(text); break;
+                        case "ItemActive": await GetIdeaByNameItemActive(text); break;
+                        case "Enemy": await GetIdeaByNameEnemy(text); break;
+                    }
                 }
                 
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
+        public async Task GetBestRatedIdea(string type, string text)
+        {
+            try
+            {
+                int rateNo = int.Parse(text);
+                switch (type)
+                {
+                    case "Baby": break;
+                    case "Item": break;
+                    case "ItemActive": break;
+                    case "Enemy": break;
+                    case "All": break;
+                }
+
             }
             catch (Exception ex)
             {
@@ -167,8 +192,8 @@ namespace Starbot
             ItemActive itemActive = new ItemActive();
             itemActive.id = Context.Message.Id;
             itemActive.name = stats[0];
-            itemActive.description = stats[3];
-            itemActive.effect = stats[4];
+            itemActive.description = stats[1];
+            itemActive.effect = stats[2];
 
             itemActive.creator = Context.Message.Author.Username;
             itemActive.verified = false;
@@ -231,15 +256,16 @@ namespace Starbot
             int last = 0;
             string[] stats = new string[statNames.Length];
 
-            for (int i = 0; i < statNames.Length - 1; i++)
+            for (int i = 0; i <= statNames.Length - 1; i++)
             {
                 if (text.Contains(statNames[i]))
                 {
                     first = text.IndexOf(statNames[i] + "=") + (statNames[i] + "=").Length;
                     //last = text.LastIndexOf(statNames[i + 1]);
+                    last = text.Length;
                     for (int j = i + 1; j < statNames.Length; j++)
                     {
-                        last = text.Length;
+                        //last = text.Length;
                         if (text.Contains(statNames[j] + "="))
                         {
                             last = text.LastIndexOf(statNames[j] + "=");
@@ -248,6 +274,11 @@ namespace Starbot
                     }
                     stats[i] = text.Substring(first, last - first);
                     stats[i] = stats[i].Replace("\n", "");
+                    if (stats[i][0] == ' ')
+                    {
+                        stats[i] = stats[i].Remove(0, 1);
+                        Console.WriteLine("Removed space=" + stats[i]);
+                    }
                 }
                 else
                 {
@@ -297,7 +328,7 @@ namespace Starbot
         private async Task GetIdeaByIdBaby(ulong id)
         {
             JsonHandler jsonHandler = new JsonHandler();
-            Baby baby = await jsonHandler.GetIdeaBaby(id);
+            Baby baby = await jsonHandler.GetIdeaByIdBaby(id);
 
             if (baby == null)
             {
@@ -330,7 +361,7 @@ namespace Starbot
         private async Task GetIdeaByIdItem(ulong id)
         {
             JsonHandler jsonHandler = new JsonHandler();
-            Item item = await jsonHandler.GetIdeaItem(id);
+            Item item = await jsonHandler.GetIdeaByIdItem(id);
 
             if (item == null)
             {
@@ -360,7 +391,7 @@ namespace Starbot
         private async Task GetIdeaByIdItemActive(ulong id)
         {
             JsonHandler jsonHandler = new JsonHandler();
-            ItemActive itemActive = await jsonHandler.GetIdeaItemActive(id);
+            ItemActive itemActive = await jsonHandler.GetIdeaByIdItemActive(id);
 
             if (itemActive == null)
             {
@@ -388,7 +419,7 @@ namespace Starbot
         private async Task GetIdeaByIdEnemy(ulong id)
         {
             JsonHandler jsonHandler = new JsonHandler();
-            Enemy enemy = await jsonHandler.GetIdeaEnemy(id);
+            Enemy enemy = await jsonHandler.GetIdeaByIdEnemy(id);
 
             if (enemy == null)
             {
@@ -416,6 +447,171 @@ namespace Starbot
             builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
 
             await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task GetIdeaByNameBaby(string name)
+        {
+            JsonHandler jsonHandler = new JsonHandler();
+            Baby baby = await jsonHandler.GetIdeaByNameBaby(name);
+
+            if (baby == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Baby idea with the name: " + name + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + baby.name);
+            builder.WithFooter("ID: " + baby.id.ToString());
+            builder.WithColor(Color.Gold);
+
+            builder.AddField("Name: ", baby.name, true);
+            builder.AddField("Cost: ", baby.cost, true);
+            builder.AddField("HP: ", baby.hp, true);
+            builder.AddField("Type: ", baby.type, true);
+            builder.AddField("Damage: ", baby.damage, true);
+            builder.AddField("Firerate: ", baby.firerate, true);
+            builder.AddField("Recharge: ", baby.recharge, true);
+            builder.AddField("Abilities: ", baby.abilities, true);
+
+            builder.AddField("Creator: ", baby.creator, true);
+            builder.AddField("Verified: ", baby.verified, true);
+            builder.AddField("Rating: ", baby.rating, true);
+            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task GetIdeaByNameItem(string name)
+        {
+            JsonHandler jsonHandler = new JsonHandler();
+            Item item = await jsonHandler.GetIdeaByNameItem(name);
+
+            if (item == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the name: " + name + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + item.name);
+            builder.WithFooter("ID: " + item.id.ToString());
+            builder.WithColor(Color.Blue);
+
+            builder.AddField("Name: ", item.name, true);
+            builder.AddField("Cost: ", item.cost, true);
+            builder.AddField("Tier: ", item.tier, true);
+            builder.AddField("Description: ", item.description, true);
+            builder.AddField("Effect: ", item.effect, true);
+
+            builder.AddField("Creator: ", item.creator, true);
+            builder.AddField("Verified: ", item.verified, true);
+            builder.AddField("Rating: ", item.rating, true);
+            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task GetIdeaByNameItemActive(string name)
+        {
+            JsonHandler jsonHandler = new JsonHandler();
+            ItemActive itemActive = await jsonHandler.GetIdeaByNameItemActive(name);
+
+            if (itemActive == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Active Item idea with the name: " + name + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + itemActive.name);
+            builder.WithFooter("ID: " + itemActive.id.ToString());
+            builder.WithColor(Color.Green);
+
+            builder.AddField("Name: ", itemActive.name, true);
+            builder.AddField("Description: ", itemActive.description, true);
+            builder.AddField("Effect: ", itemActive.effect, true);
+
+            builder.AddField("Creator: ", itemActive.creator, true);
+            builder.AddField("Verified: ", itemActive.verified, true);
+            builder.AddField("Rating: ", itemActive.rating, true);
+            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task GetIdeaByNameEnemy(string name)
+        {
+            JsonHandler jsonHandler = new JsonHandler();
+            Enemy enemy = await jsonHandler.GetIdeaByNameEnemy(name);
+
+            if (enemy == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Enemy idea with the name: " + name + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + enemy.name);
+            builder.WithFooter("ID: " + enemy.id.ToString());
+            builder.WithColor(Color.Red);
+
+            builder.AddField("Name: ", enemy.name, true);
+            builder.AddField("HP: ", enemy.hp, true);
+            builder.AddField("Type: ", enemy.type, true);
+            builder.AddField("Damage: ", enemy.damage, true);
+            builder.AddField("Firerate: ", enemy.firerate, true);
+            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
+            builder.AddField("Abilities: ", enemy.abilities, true);
+            builder.AddField("Appearance: ", enemy.appearance, true);
+
+            builder.AddField("Creator: ", enemy.creator, true);
+            builder.AddField("Verified: ", enemy.verified, true);
+            builder.AddField("Rating: ", enemy.rating, true);
+            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task GetBestRatedBaby(int rateNo)
+        {
+            JsonHandler jsonHandler = new JsonHandler();
+            List<Baby> _baby = await jsonHandler.GetBestRatedBaby(rateNo);
+
+            if (_baby == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There are no rated Babies.```");
+                return;
+            }
+            int i = 0;
+            foreach (Baby baby in _baby)
+            {
+                i++;
+                if (i > rateNo)
+                {
+                    break;
+                }
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithTitle(" Baby - " + baby.name);
+                builder.WithFooter("ID: " + baby.id.ToString());
+                builder.WithColor(Color.Gold);
+
+                builder.AddField("Name: ", baby.name, true);
+                builder.AddField("Cost: ", baby.cost, true);
+                builder.AddField("HP: ", baby.hp, true);
+                builder.AddField("Type: ", baby.type, true);
+                builder.AddField("Damage: ", baby.damage, true);
+                builder.AddField("Firerate: ", baby.firerate, true);
+                builder.AddField("Recharge: ", baby.recharge, true);
+                builder.AddField("Abilities: ", baby.abilities, true);
+
+                builder.AddField("Creator: ", baby.creator, true);
+                builder.AddField("Verified: ", baby.verified, true);
+                builder.AddField("Rating: ", baby.rating, true);
+                builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
+
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+            }
         }
     }
 }
