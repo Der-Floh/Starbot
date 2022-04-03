@@ -43,6 +43,14 @@ namespace Starbot
         {
             try
             {
+                switch (type)
+                {
+                    case "Baby": await GetIdeaBaby(text); break;
+                    case "Item": await GetIdeaItem(text); break;
+                    case "ItemActive": await GetIdeaItemActive(text); break;
+                    case "Enemy": await GetIdeaEnemy(text); break;
+                }
+                /*
                 ulong id = 0;
                 if (ulong.TryParse(text, out id))
                 {
@@ -64,7 +72,7 @@ namespace Starbot
                         case "Enemy": await GetIdeaByNameEnemy(text); break;
                     }
                 }
-                
+                */
             }
             catch (Exception ex)
             {
@@ -80,10 +88,19 @@ namespace Starbot
         {
             try
             {
-                int rateNo = int.Parse(text);
+                int rateNo = 0;
+                text = text.Replace(" ", "");
+                if (text == "")
+                {
+                    rateNo = 1;
+                }
+                else
+                {
+                    rateNo = int.Parse(text);
+                }
                 switch (type)
                 {
-                    case "Baby": break;
+                    case "Baby": await GetBestRatedBaby(rateNo); break;
                     case "Item": break;
                     case "ItemActive": break;
                     case "Enemy": break;
@@ -112,7 +129,7 @@ namespace Starbot
                 statMsg += statNames[i] + ": " + stats[i] + "\n";
             }
             */
-            JsonHandler jsonHandler = new JsonHandler();
+            //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
             float parsedFloat = 0;
@@ -143,7 +160,7 @@ namespace Starbot
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Baby");
 
             baby.id = botMessage.Id;
-            await jsonHandler.AddBaby(baby);
+            await Idea.AddBaby(baby); //jsonHandler.AddBaby(baby);
 
             await botMessage.AddReactionAsync(new Emoji("👍"));
             await botMessage.AddReactionAsync(new Emoji("👎"));
@@ -154,7 +171,7 @@ namespace Starbot
             string[] statNames = { "Name", "Cost", "Tier", "Description", "Effect" };
             string[] stats = await GetIdeaStats(statNames, text);
 
-            JsonHandler jsonHandler = new JsonHandler();
+            //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
             Item item = new Item();
@@ -176,7 +193,7 @@ namespace Starbot
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Item");
 
             item.id = botMessage.Id;
-            await jsonHandler.AddItem(item);
+            await Idea.AddItem(item); //jsonHandler.AddItem(item);
 
             await botMessage.AddReactionAsync(new Emoji("👍"));
             await botMessage.AddReactionAsync(new Emoji("👎"));
@@ -187,7 +204,7 @@ namespace Starbot
             string[] statNames = { "Name", "Description", "Effect" };
             string[] stats = await GetIdeaStats(statNames, text);
 
-            JsonHandler jsonHandler = new JsonHandler();
+            //JsonHandler jsonHandler = new JsonHandler();
 
             ItemActive itemActive = new ItemActive();
             itemActive.id = Context.Message.Id;
@@ -204,7 +221,7 @@ namespace Starbot
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "ItemActive");
 
             itemActive.id = botMessage.Id;
-            await jsonHandler.AddItemActive(itemActive);
+            await Idea.AddItemActive(itemActive); //jsonHandler.AddItemActive(itemActive);
 
             await botMessage.AddReactionAsync(new Emoji("👍"));
             await botMessage.AddReactionAsync(new Emoji("👎"));
@@ -215,7 +232,7 @@ namespace Starbot
             string[] statNames = { "Name", "HP", "Type", "Damage", "Firerate", "Walkspeed", "Abilities", "Appearance"};
             string[] stats = await GetIdeaStats(statNames, text);
 
-            JsonHandler jsonHandler = new JsonHandler();
+            //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
             float parsedFloat = 0;
@@ -243,7 +260,7 @@ namespace Starbot
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Enemy");
 
             enemy.id = botMessage.Id;
-            await jsonHandler.AddEnemy(enemy);
+            await Idea.AddEnemy(enemy); //jsonHandler.AddEnemy(enemy);
 
             await botMessage.AddReactionAsync(new Emoji("👍"));
             await botMessage.AddReactionAsync(new Emoji("👎"));
@@ -325,6 +342,123 @@ namespace Starbot
             return userMessage;
         }
 
+        private async Task GetIdeaBaby(string text)
+        {
+            Baby baby = await Idea.GetBaby(text);
+
+            if (baby == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Baby idea with the id or name: " + text + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + baby.name);
+            builder.WithFooter("ID: " + baby.id.ToString());
+            builder.WithColor(Color.Gold);
+
+            builder.AddField("Name: ", baby.name, true);
+            builder.AddField("Cost: ", baby.cost, true);
+            builder.AddField("HP: ", baby.hp, true);
+            builder.AddField("Type: ", baby.type, true);
+            builder.AddField("Damage: ", baby.damage, true);
+            builder.AddField("Firerate: ", baby.firerate, true);
+            builder.AddField("Recharge: ", baby.recharge, true);
+            builder.AddField("Abilities: ", baby.abilities, true);
+
+            builder.AddField("Creator: ", baby.creator, true);
+            builder.AddField("Verified: ", baby.verified, true);
+            builder.AddField("Rating: ", baby.rating, true);
+            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task GetIdeaItem(string text)
+        {
+            Item item = await Idea.GetItem(text);
+
+            if (item == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the id or name: " + text + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + item.name);
+            builder.WithFooter("ID: " + item.id.ToString());
+            builder.WithColor(Color.Blue);
+
+            builder.AddField("Name: ", item.name, true);
+            builder.AddField("Cost: ", item.cost, true);
+            builder.AddField("Tier: ", item.tier, true);
+            builder.AddField("Description: ", item.description, true);
+            builder.AddField("Effect: ", item.effect, true);
+
+            builder.AddField("Creator: ", item.creator, true);
+            builder.AddField("Verified: ", item.verified, true);
+            builder.AddField("Rating: ", item.rating, true);
+            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task GetIdeaItemActive(string text)
+        {
+            ItemActive itemActive = await Idea.GetItemActive(text);
+
+            if (itemActive == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Active Item idea with the id or name: " + text + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + itemActive.name);
+            builder.WithFooter("ID: " + itemActive.id.ToString());
+            builder.WithColor(Color.Green);
+
+            builder.AddField("Name: ", itemActive.name, true);
+            builder.AddField("Description: ", itemActive.description, true);
+            builder.AddField("Effect: ", itemActive.effect, true);
+
+            builder.AddField("Creator: ", itemActive.creator, true);
+            builder.AddField("Verified: ", itemActive.verified, true);
+            builder.AddField("Rating: ", itemActive.rating, true);
+            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task GetIdeaEnemy(string text)
+        {
+            Enemy enemy = await Idea.GetEnemy(text);
+
+            if (enemy == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Enemy idea with the id or name: " + text + "```");
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + enemy.name);
+            builder.WithFooter("ID: " + enemy.id.ToString());
+            builder.WithColor(Color.Red);
+
+            builder.AddField("Name: ", enemy.name, true);
+            builder.AddField("HP: ", enemy.hp, true);
+            builder.AddField("Type: ", enemy.type, true);
+            builder.AddField("Damage: ", enemy.damage, true);
+            builder.AddField("Firerate: ", enemy.firerate, true);
+            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
+            builder.AddField("Abilities: ", enemy.abilities, true);
+            builder.AddField("Appearance: ", enemy.appearance, true);
+
+            builder.AddField("Creator: ", enemy.creator, true);
+            builder.AddField("Verified: ", enemy.verified, true);
+            builder.AddField("Rating: ", enemy.rating, true);
+            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
+
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        /*
         private async Task GetIdeaByIdBaby(ulong id)
         {
             JsonHandler jsonHandler = new JsonHandler();
@@ -572,11 +706,11 @@ namespace Starbot
 
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-
+        */
         private async Task GetBestRatedBaby(int rateNo)
         {
-            JsonHandler jsonHandler = new JsonHandler();
-            List<Baby> _baby = await jsonHandler.GetBestRatedBaby(rateNo);
+            //JsonHandler jsonHandler = new JsonHandler();
+            List<Baby> _baby = await Idea.GetBestRatedBabies(); //jsonHandler.GetBestRatedBaby(rateNo);
 
             if (_baby == null)
             {

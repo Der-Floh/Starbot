@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Starbot;
+using Starbot.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +35,10 @@ namespace Discord_I.Rule_Suggestions_Bot
             int thumbsDownCount = 0;
             if (reaction.Emote.Name == "👍" || reaction.Emote.Name == "👎")
             {
-                var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
+                var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 100).FlattenAsync();
                 thumbsUpCount = emotes.Count();
                 
-                emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 1000).FlattenAsync();
+                emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 100).FlattenAsync();
                 thumbsDownCount = emotes.Count();
             }
             int rating = thumbsUpCount - thumbsDownCount;
@@ -45,8 +46,16 @@ namespace Discord_I.Rule_Suggestions_Bot
             IEmbed[] embed = reactionMsg.Embeds.ToArray();
             string type = embed[0].ToString().Substring(0, embed[0].ToString().IndexOf(" "));
 
-            JsonHandler jsonHandler = new JsonHandler();
-            await jsonHandler.SetRating(reactionMsg.Id, type, rating);
+            //JsonHandler jsonHandler = new JsonHandler();
+            //await jsonHandler.SetRating(reactionMsg.Id, type, rating);
+
+            switch (type)
+            {
+                case "Baby": await Idea.SetRatingBaby(reactionMsg.Id, rating); break;
+                case "Item": await Idea.SetRatingItem(reactionMsg.Id, rating); break;
+                case "ItemActive": await Idea.SetRatingItemActive(reactionMsg.Id, rating); break;
+                case "Enemy": await Idea.SetRatingEnemy(reactionMsg.Id, rating); break;
+            }
         }
     }
 }

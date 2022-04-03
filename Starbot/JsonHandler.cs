@@ -11,6 +11,7 @@ namespace Starbot
 {
     public class JsonHandler
     {
+        /*
         public async Task AddBaby(Baby baby)
         {
             string fileName = @"Suggestion-Files\Baby-Ideas.json";
@@ -19,10 +20,8 @@ namespace Starbot
             {
                 using FileStream openStream = File.OpenRead(fileName);
                 _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
-                /*
-                jsonString = File.ReadAllText(fileName);
-                _baby = JsonSerializer.Deserialize<List<Baby>>(jsonString);
-                */
+                //jsonString = File.ReadAllText(fileName);
+                //_baby = JsonSerializer.Deserialize<List<Baby>>(jsonString);
             }
 
             _baby.Add(baby);
@@ -31,10 +30,8 @@ namespace Starbot
             using FileStream createStream = File.Create(fileName);
             await JsonSerializer.SerializeAsync(createStream, _baby, jsonOptions);
             await createStream.DisposeAsync();
-            /*
-            jsonString = JsonSerializer.Serialize(_baby, jsonOptions);
-            File.WriteAllText(fileName, jsonString);
-            */
+            //jsonString = JsonSerializer.Serialize(_baby, jsonOptions);
+            //File.WriteAllText(fileName, jsonString);
         }
         public async Task AddItem(Item item)
         {
@@ -304,11 +301,6 @@ namespace Starbot
                             bestBaby[i] = baby;
                         }
                     }
-                    /*
-                    if (baby.rating > bestRating[1] && bestRating[1] < bestRating[0])
-                    {
-                        bestRating[1] = baby.rating;
-                    }*/
                 }
                 foreach (Baby baby in bestBaby)
                 {
@@ -408,6 +400,92 @@ namespace Starbot
                     }
                 }
             }
+        }
+        */
+        public async Task WriteBaby(List<Baby> _baby)
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+            using FileStream createStream = File.Create(fileName);
+            await JsonSerializer.SerializeAsync(createStream, _baby, jsonOptions);
+            await createStream.DisposeAsync();
+        }
+        public async Task WriteItem(List<Item> _item)
+        {
+            string fileName = @"Suggestion-Files\Item-Ideas.json";
+
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+            using FileStream createStream = File.Create(fileName);
+            await JsonSerializer.SerializeAsync(createStream, _item, jsonOptions);
+            await createStream.DisposeAsync();
+        }
+        public async Task WriteItemActive(List<ItemActive> _itemActive)
+        {
+            string fileName = @"Suggestion-Files\ItemActive-Ideas.json";
+
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+            using FileStream createStream = File.Create(fileName);
+            await JsonSerializer.SerializeAsync(createStream, _itemActive, jsonOptions);
+            await createStream.DisposeAsync();
+        }
+        public async Task WriteEnemy(List<Enemy> _enemy)
+        {
+            string fileName = @"Suggestion-Files\Enemy-Ideas.json";
+
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+            using FileStream createStream = File.Create(fileName);
+            await JsonSerializer.SerializeAsync(createStream, _enemy, jsonOptions);
+            await createStream.DisposeAsync();
+        }
+
+        public async Task<List<Baby>> GetBabies()
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Baby> _baby = await JsonSerializer.DeserializeAsync<List<Baby>>(openStream);
+                await openStream.DisposeAsync();
+                return _baby;
+            }
+            return null;
+        }
+        public async Task<List<Item>> GetItems()
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Item> _item = await JsonSerializer.DeserializeAsync<List<Item>>(openStream);
+                await openStream.DisposeAsync();
+                return _item;
+            }
+            return null;
+        }
+        public async Task<List<ItemActive>> GetItemsActive()
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<ItemActive> _itemActive = await JsonSerializer.DeserializeAsync<List<ItemActive>>(openStream);
+                await openStream.DisposeAsync();
+                return _itemActive;
+            }
+            return null;
+        }
+        public async Task<List<Enemy>> GetEnemies()
+        {
+            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Enemy> _enemy = await JsonSerializer.DeserializeAsync<List<Enemy>>(openStream);
+                await openStream.DisposeAsync();
+                return _enemy;
+            }
+            return null;
         }
     }
 }

@@ -12,6 +12,7 @@ using Starbot;
 using Starbot.Modules;
 using Starbot.Log;
 using Discord_I.Rule_Suggestions_Bot;
+using Starbot.Types;
 
 //new DiscordBot().MainAsync().GetAwaiter().GetResult();
 
@@ -25,10 +26,12 @@ namespace SuggestionsBot
 
         public async Task MainAsync()
         {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Suggestion-Files"))
             {
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Suggestion-Files");
             }
+            await Idea.InitIdea();
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -126,6 +129,10 @@ namespace SuggestionsBot
             }
             Console.WriteLine(msg.ToString());
             Console.ResetColor();
+        }
+        private void OnProcessExit(object sender, EventArgs e)
+        {
+            Idea.WriteToJson();
         }
 
         static bool IsDebug()
