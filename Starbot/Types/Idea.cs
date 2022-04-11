@@ -236,34 +236,98 @@ namespace Starbot.Types
         public static async Task<List<Baby>> GetBestRatedBabies()
         {
             int[] bestRating = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            Baby[] bestBaby = new Baby[bestRating.Length];
+            List<Baby> sortedBaby = _baby.OrderByDescending(b => b.rating).ToList();
             List<Baby> babies = new List<Baby>();
+            int i = 0;
 
-            foreach (Baby baby in _baby)
+            foreach (Baby baby in sortedBaby)
             {
-                if (baby.rating > bestRating[0])
+                if (i == 0 && baby.rating > bestRating[0])
                 {
                     bestRating[0] = baby.rating;
-                    bestBaby[0] = baby;
-                }
-
-                for (int i = 1; i < bestRating.Length; i++)
-                {
-                    if (baby.rating > bestRating[i] && /*bestRating[i]*/baby.rating < bestRating[i - 1])
-                    {
-                        bestRating[i] = baby.rating;
-                        bestBaby[i] = baby;
-                    }
-                }
-            }
-            foreach (Baby baby in bestBaby)
-            {
-                if (baby != null)
-                {
                     babies.Add(baby);
                 }
+                
+                if (i != 0 && baby.rating >= bestRating[i] && baby.rating <= bestRating[i - 1])
+                {
+                    bestRating[i] = baby.rating;
+                    babies.Add(baby);
+                }
+                i++;
             }
             return babies;
+        }
+        public static async Task<List<Item>> GetBestRatedItems()
+        {
+            int[] bestRating = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            List<Item> sortedItem = _item.OrderByDescending(i => i.rating).ToList();
+            List<Item> items = new List<Item>();
+            int i = 0;
+
+            foreach (Item item in sortedItem)
+            {
+                if (i == 0 && item.rating > bestRating[0])
+                {
+                    bestRating[0] = item.rating;
+                    items.Add(item);
+                }
+
+                if (i != 0 && item.rating >= bestRating[i] && item.rating <= bestRating[i - 1])
+                {
+                    bestRating[i] = item.rating;
+                    items.Add(item);
+                }
+                i++;
+            }
+            return items;
+        }
+        public static async Task<List<ItemActive>> GetBestRatedItemsActive()
+        {
+            int[] bestRating = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            List<ItemActive> sortedItemActive = _itemActive.OrderByDescending(i => i.rating).ToList();
+            List<ItemActive> itemsActive = new List<ItemActive>();
+            int i = 0;
+
+            foreach (ItemActive itemActive in sortedItemActive)
+            {
+                if (i == 0 && itemActive.rating > bestRating[0])
+                {
+                    bestRating[0] = itemActive.rating;
+                    itemsActive.Add(itemActive);
+                }
+
+                if (i != 0 && itemActive.rating >= bestRating[i] && itemActive.rating <= bestRating[i - 1])
+                {
+                    bestRating[i] = itemActive.rating;
+                    itemsActive.Add(itemActive);
+                }
+                i++;
+            }
+            return itemsActive;
+        }
+        public static async Task<List<Enemy>> GetBestRatedEnemies()
+        {
+            int[] bestRating = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            List<Enemy> sortedEnemy = _enemy.OrderByDescending(b => b.rating).ToList();
+            List<Enemy> enemies = new List<Enemy>();
+            int i = 0;
+
+            foreach (Enemy enemy in sortedEnemy)
+            {
+                if (i == 0 && enemy.rating > bestRating[0])
+                {
+                    bestRating[0] = enemy.rating;
+                    enemies.Add(enemy);
+                }
+
+                if (i != 0 && enemy.rating >= bestRating[i] && enemy.rating <= bestRating[i - 1])
+                {
+                    bestRating[i] = enemy.rating;
+                    enemies.Add(enemy);
+                }
+                i++;
+            }
+            return enemies;
         }
 
         public static async Task WriteToJson()

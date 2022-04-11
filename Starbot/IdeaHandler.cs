@@ -50,29 +50,6 @@ namespace Starbot
                     case "ItemActive": await GetIdeaItemActive(text); break;
                     case "Enemy": await GetIdeaEnemy(text); break;
                 }
-                /*
-                ulong id = 0;
-                if (ulong.TryParse(text, out id))
-                {
-                    switch (type)
-                    {
-                        case "Baby": await GetIdeaByIdBaby(id); break;
-                        case "Item": await GetIdeaByIdItem(id); break;
-                        case "ItemActive": await GetIdeaByIdItemActive(id); break;
-                        case "Enemy": await GetIdeaByIdEnemy(id); break;
-                    }
-                }
-                else
-                {
-                    switch (type)
-                    {
-                        case "Baby": await GetIdeaByNameBaby(text); break;
-                        case "Item": await GetIdeaByNameItem(text); break;
-                        case "ItemActive": await GetIdeaByNameItemActive(text); break;
-                        case "Enemy": await GetIdeaByNameEnemy(text); break;
-                    }
-                }
-                */
             }
             catch (Exception ex)
             {
@@ -101,10 +78,10 @@ namespace Starbot
                 switch (type)
                 {
                     case "Baby": await GetBestRatedBaby(rateNo); break;
-                    case "Item": break;
-                    case "ItemActive": break;
-                    case "Enemy": break;
-                    case "All": break;
+                    case "Item": await GetBestRatedItem(rateNo); break;
+                    case "ItemActive": await GetBestRatedItemActive(rateNo); break;
+                    case "Enemy":  await GetBestRatedEnemy(rateNo); break;
+                    case "All":  break;
                 }
 
             }
@@ -352,26 +329,7 @@ namespace Starbot
                 return;
             }
 
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + baby.name);
-            builder.WithFooter("ID: " + baby.id.ToString());
-            builder.WithColor(Color.Gold);
-
-            builder.AddField("Name: ", baby.name, true);
-            builder.AddField("Cost: ", baby.cost, true);
-            builder.AddField("HP: ", baby.hp, true);
-            builder.AddField("Type: ", baby.type, true);
-            builder.AddField("Damage: ", baby.damage, true);
-            builder.AddField("Firerate: ", baby.firerate, true);
-            builder.AddField("Recharge: ", baby.recharge, true);
-            builder.AddField("Abilities: ", baby.abilities, true);
-
-            builder.AddField("Creator: ", baby.creator, true);
-            builder.AddField("Verified: ", baby.verified, true);
-            builder.AddField("Rating: ", baby.rating, true);
-            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
+            await buildMessageBaby(baby);
         }
         private async Task GetIdeaItem(string text)
         {
@@ -383,23 +341,7 @@ namespace Starbot
                 return;
             }
 
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + item.name);
-            builder.WithFooter("ID: " + item.id.ToString());
-            builder.WithColor(Color.Blue);
-
-            builder.AddField("Name: ", item.name, true);
-            builder.AddField("Cost: ", item.cost, true);
-            builder.AddField("Tier: ", item.tier, true);
-            builder.AddField("Description: ", item.description, true);
-            builder.AddField("Effect: ", item.effect, true);
-
-            builder.AddField("Creator: ", item.creator, true);
-            builder.AddField("Verified: ", item.verified, true);
-            builder.AddField("Rating: ", item.rating, true);
-            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
+            await buildMessageItem(item);
         }
         private async Task GetIdeaItemActive(string text)
         {
@@ -411,21 +353,7 @@ namespace Starbot
                 return;
             }
 
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + itemActive.name);
-            builder.WithFooter("ID: " + itemActive.id.ToString());
-            builder.WithColor(Color.Green);
-
-            builder.AddField("Name: ", itemActive.name, true);
-            builder.AddField("Description: ", itemActive.description, true);
-            builder.AddField("Effect: ", itemActive.effect, true);
-
-            builder.AddField("Creator: ", itemActive.creator, true);
-            builder.AddField("Verified: ", itemActive.verified, true);
-            builder.AddField("Rating: ", itemActive.rating, true);
-            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
+            await buildMessageItemActive(itemActive);
         }
         private async Task GetIdeaEnemy(string text)
         {
@@ -437,280 +365,12 @@ namespace Starbot
                 return;
             }
 
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + enemy.name);
-            builder.WithFooter("ID: " + enemy.id.ToString());
-            builder.WithColor(Color.Red);
-
-            builder.AddField("Name: ", enemy.name, true);
-            builder.AddField("HP: ", enemy.hp, true);
-            builder.AddField("Type: ", enemy.type, true);
-            builder.AddField("Damage: ", enemy.damage, true);
-            builder.AddField("Firerate: ", enemy.firerate, true);
-            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
-            builder.AddField("Abilities: ", enemy.abilities, true);
-            builder.AddField("Appearance: ", enemy.appearance, true);
-
-            builder.AddField("Creator: ", enemy.creator, true);
-            builder.AddField("Verified: ", enemy.verified, true);
-            builder.AddField("Rating: ", enemy.rating, true);
-            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-        /*
-        private async Task GetIdeaByIdBaby(ulong id)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Baby baby = await jsonHandler.GetIdeaByIdBaby(id);
-
-            if (baby == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Baby idea with the id: " + id + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + baby.name);
-            builder.WithFooter("ID: " + baby.id.ToString());
-            builder.WithColor(Color.Gold);
-
-            builder.AddField("Name: ", baby.name, true);
-            builder.AddField("Cost: ", baby.cost, true);
-            builder.AddField("HP: ", baby.hp, true);
-            builder.AddField("Type: ", baby.type, true);
-            builder.AddField("Damage: ", baby.damage, true);
-            builder.AddField("Firerate: ", baby.firerate, true);
-            builder.AddField("Recharge: ", baby.recharge, true);
-            builder.AddField("Abilities: ", baby.abilities, true);
-
-            builder.AddField("Creator: ", baby.creator, true);
-            builder.AddField("Verified: ", baby.verified, true);
-            builder.AddField("Rating: ", baby.rating, true);
-            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
+            await buildMessageEnemy(enemy);
         }
 
-        private async Task GetIdeaByIdItem(ulong id)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Item item = await jsonHandler.GetIdeaByIdItem(id);
-
-            if (item == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the id: " + id + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + item.name);
-            builder.WithFooter("ID: " + item.id.ToString());
-            builder.WithColor(Color.Blue);
-
-            builder.AddField("Name: ", item.name, true);
-            builder.AddField("Cost: ", item.cost, true);
-            builder.AddField("Tier: ", item.tier, true);
-            builder.AddField("Description: ", item.description, true);
-            builder.AddField("Effect: ", item.effect, true);
-
-            builder.AddField("Creator: ", item.creator, true);
-            builder.AddField("Verified: ", item.verified, true);
-            builder.AddField("Rating: ", item.rating, true);
-            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByIdItemActive(ulong id)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            ItemActive itemActive = await jsonHandler.GetIdeaByIdItemActive(id);
-
-            if (itemActive == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Active Item idea with the id: " + id + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + itemActive.name);
-            builder.WithFooter("ID: " + itemActive.id.ToString());
-            builder.WithColor(Color.Green);
-
-            builder.AddField("Name: ", itemActive.name, true);
-            builder.AddField("Description: ", itemActive.description, true);
-            builder.AddField("Effect: ", itemActive.effect, true);
-
-            builder.AddField("Creator: ", itemActive.creator, true);
-            builder.AddField("Verified: ", itemActive.verified, true);
-            builder.AddField("Rating: ", itemActive.rating, true);
-            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByIdEnemy(ulong id)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Enemy enemy = await jsonHandler.GetIdeaByIdEnemy(id);
-
-            if (enemy == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Enemy idea with the id: " + id + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + enemy.name);
-            builder.WithFooter("ID: " + enemy.id.ToString());
-            builder.WithColor(Color.Red);
-
-            builder.AddField("Name: ", enemy.name, true);
-            builder.AddField("HP: ", enemy.hp, true);
-            builder.AddField("Type: ", enemy.type, true);
-            builder.AddField("Damage: ", enemy.damage, true);
-            builder.AddField("Firerate: ", enemy.firerate, true);
-            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
-            builder.AddField("Abilities: ", enemy.abilities, true);
-            builder.AddField("Appearance: ", enemy.appearance, true);
-
-            builder.AddField("Creator: ", enemy.creator, true);
-            builder.AddField("Verified: ", enemy.verified, true);
-            builder.AddField("Rating: ", enemy.rating, true);
-            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByNameBaby(string name)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Baby baby = await jsonHandler.GetIdeaByNameBaby(name);
-
-            if (baby == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Baby idea with the name: " + name + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + baby.name);
-            builder.WithFooter("ID: " + baby.id.ToString());
-            builder.WithColor(Color.Gold);
-
-            builder.AddField("Name: ", baby.name, true);
-            builder.AddField("Cost: ", baby.cost, true);
-            builder.AddField("HP: ", baby.hp, true);
-            builder.AddField("Type: ", baby.type, true);
-            builder.AddField("Damage: ", baby.damage, true);
-            builder.AddField("Firerate: ", baby.firerate, true);
-            builder.AddField("Recharge: ", baby.recharge, true);
-            builder.AddField("Abilities: ", baby.abilities, true);
-
-            builder.AddField("Creator: ", baby.creator, true);
-            builder.AddField("Verified: ", baby.verified, true);
-            builder.AddField("Rating: ", baby.rating, true);
-            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByNameItem(string name)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Item item = await jsonHandler.GetIdeaByNameItem(name);
-
-            if (item == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the name: " + name + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + item.name);
-            builder.WithFooter("ID: " + item.id.ToString());
-            builder.WithColor(Color.Blue);
-
-            builder.AddField("Name: ", item.name, true);
-            builder.AddField("Cost: ", item.cost, true);
-            builder.AddField("Tier: ", item.tier, true);
-            builder.AddField("Description: ", item.description, true);
-            builder.AddField("Effect: ", item.effect, true);
-
-            builder.AddField("Creator: ", item.creator, true);
-            builder.AddField("Verified: ", item.verified, true);
-            builder.AddField("Rating: ", item.rating, true);
-            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByNameItemActive(string name)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            ItemActive itemActive = await jsonHandler.GetIdeaByNameItemActive(name);
-
-            if (itemActive == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Active Item idea with the name: " + name + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Item - " + itemActive.name);
-            builder.WithFooter("ID: " + itemActive.id.ToString());
-            builder.WithColor(Color.Green);
-
-            builder.AddField("Name: ", itemActive.name, true);
-            builder.AddField("Description: ", itemActive.description, true);
-            builder.AddField("Effect: ", itemActive.effect, true);
-
-            builder.AddField("Creator: ", itemActive.creator, true);
-            builder.AddField("Verified: ", itemActive.verified, true);
-            builder.AddField("Rating: ", itemActive.rating, true);
-            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-
-        private async Task GetIdeaByNameEnemy(string name)
-        {
-            JsonHandler jsonHandler = new JsonHandler();
-            Enemy enemy = await jsonHandler.GetIdeaByNameEnemy(name);
-
-            if (enemy == null)
-            {
-                await Context.Channel.SendMessageAsync("```diff\n- There is no Enemy idea with the name: " + name + "```");
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithTitle(" Baby - " + enemy.name);
-            builder.WithFooter("ID: " + enemy.id.ToString());
-            builder.WithColor(Color.Red);
-
-            builder.AddField("Name: ", enemy.name, true);
-            builder.AddField("HP: ", enemy.hp, true);
-            builder.AddField("Type: ", enemy.type, true);
-            builder.AddField("Damage: ", enemy.damage, true);
-            builder.AddField("Firerate: ", enemy.firerate, true);
-            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
-            builder.AddField("Abilities: ", enemy.abilities, true);
-            builder.AddField("Appearance: ", enemy.appearance, true);
-
-            builder.AddField("Creator: ", enemy.creator, true);
-            builder.AddField("Verified: ", enemy.verified, true);
-            builder.AddField("Rating: ", enemy.rating, true);
-            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
-
-            await Context.Channel.SendMessageAsync("", false, builder.Build());
-        }
-        */
         private async Task GetBestRatedBaby(int rateNo)
         {
-            //JsonHandler jsonHandler = new JsonHandler();
-            List<Baby> _baby = await Idea.GetBestRatedBabies(); //jsonHandler.GetBestRatedBaby(rateNo);
+            List<Baby> _baby = await Idea.GetBestRatedBabies();
 
             if (_baby == null)
             {
@@ -725,27 +385,153 @@ namespace Starbot
                 {
                     break;
                 }
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.WithTitle(" Baby - " + baby.name);
-                builder.WithFooter("ID: " + baby.id.ToString());
-                builder.WithColor(Color.Gold);
-
-                builder.AddField("Name: ", baby.name, true);
-                builder.AddField("Cost: ", baby.cost, true);
-                builder.AddField("HP: ", baby.hp, true);
-                builder.AddField("Type: ", baby.type, true);
-                builder.AddField("Damage: ", baby.damage, true);
-                builder.AddField("Firerate: ", baby.firerate, true);
-                builder.AddField("Recharge: ", baby.recharge, true);
-                builder.AddField("Abilities: ", baby.abilities, true);
-
-                builder.AddField("Creator: ", baby.creator, true);
-                builder.AddField("Verified: ", baby.verified, true);
-                builder.AddField("Rating: ", baby.rating, true);
-                builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
-
-                await Context.Channel.SendMessageAsync("", false, builder.Build());
+                await buildMessageBaby(baby);
             }
+        }
+        private async Task GetBestRatedItem(int rateNo)
+        {
+            List<Item> _item = await Idea.GetBestRatedItems();
+
+            if (_item == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There are no rated Items.```");
+                return;
+            }
+            int i = 0;
+            foreach (Item item in _item)
+            {
+                i++;
+                if (i > rateNo)
+                {
+                    break;
+                }
+                await buildMessageItem(item);
+            }
+        }
+        private async Task GetBestRatedItemActive(int rateNo)
+        {
+            List<ItemActive> _itemActive = await Idea.GetBestRatedItemsActive();
+
+            if (_itemActive == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There are no rated Active Items.```");
+                return;
+            }
+            int i = 0;
+            foreach (ItemActive itemActive in _itemActive)
+            {
+                i++;
+                if (i > rateNo)
+                {
+                    break;
+                }
+                await buildMessageItemActive(itemActive);
+            }
+        }
+        private async Task GetBestRatedEnemy(int rateNo)
+        {
+            List<Enemy> _enemy = await Idea.GetBestRatedEnemies();
+
+            if (_enemy == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There are no rated Enemies.```");
+                return;
+            }
+            int i = 0;
+            foreach (Enemy enemy in _enemy)
+            {
+                i++;
+                if (i > rateNo)
+                {
+                    break;
+                }
+                await buildMessageEnemy(enemy);
+            }
+        }
+
+        private async Task<IUserMessage> buildMessageBaby(Baby baby)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + baby.name);
+            builder.WithFooter("ID: " + baby.id.ToString());
+            builder.WithColor(Color.Gold);
+
+            builder.AddField("Name: ", baby.name, true);
+            builder.AddField("Cost: ", baby.cost, true);
+            builder.AddField("HP: ", baby.hp, true);
+            builder.AddField("Type: ", baby.type, true);
+            builder.AddField("Damage: ", baby.damage, true);
+            builder.AddField("Firerate: ", baby.firerate, true);
+            builder.AddField("Recharge: ", baby.recharge, true);
+            builder.AddField("Abilities: ", baby.abilities, true);
+
+            builder.AddField("Creator: ", baby.creator, true);
+            builder.AddField("Verified: ", baby.verified, true);
+            builder.AddField("Rating: ", baby.rating, true);
+            builder.AddField("Date: ", baby.date.ToString("MM/dd/yyyy"), true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageItem(Item item)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + item.name);
+            builder.WithFooter("ID: " + item.id.ToString());
+            builder.WithColor(Color.Blue);
+
+            builder.AddField("Name: ", item.name, true);
+            builder.AddField("Cost: ", item.cost, true);
+            builder.AddField("Tier: ", item.tier, true);
+            builder.AddField("Description: ", item.description, true);
+            builder.AddField("Effect: ", item.effect, true);
+
+            builder.AddField("Creator: ", item.creator, true);
+            builder.AddField("Verified: ", item.verified, true);
+            builder.AddField("Rating: ", item.rating, true);
+            builder.AddField("Date: ", item.date.ToString("MM/dd/yyyy"), true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageItemActive(ItemActive itemActive)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + itemActive.name);
+            builder.WithFooter("ID: " + itemActive.id.ToString());
+            builder.WithColor(Color.Green);
+
+            builder.AddField("Name: ", itemActive.name, true);
+            builder.AddField("Description: ", itemActive.description, true);
+            builder.AddField("Effect: ", itemActive.effect, true);
+
+            builder.AddField("Creator: ", itemActive.creator, true);
+            builder.AddField("Verified: ", itemActive.verified, true);
+            builder.AddField("Rating: ", itemActive.rating, true);
+            builder.AddField("Date: ", itemActive.date.ToString("MM/dd/yyyy"), true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageEnemy(Enemy enemy)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + enemy.name);
+            builder.WithFooter("ID: " + enemy.id.ToString());
+            builder.WithColor(Color.Red);
+
+            builder.AddField("Name: ", enemy.name, true);
+            builder.AddField("HP: ", enemy.hp, true);
+            builder.AddField("Type: ", enemy.type, true);
+            builder.AddField("Damage: ", enemy.damage, true);
+            builder.AddField("Firerate: ", enemy.firerate, true);
+            builder.AddField("Walkspeed: ", enemy.walkspeed, true);
+            builder.AddField("Abilities: ", enemy.abilities, true);
+            builder.AddField("Appearance: ", enemy.appearance, true);
+
+            builder.AddField("Creator: ", enemy.creator, true);
+            builder.AddField("Verified: ", enemy.verified, true);
+            builder.AddField("Rating: ", enemy.rating, true);
+            builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
     }
 }
