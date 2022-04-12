@@ -1,0 +1,114 @@
+[
+    {
+      "name": "Book of Shadows",
+      "description": "Gives a protecting aura",
+      "effect": "Shields the chosen baby",
+      "creator": "DoctorHummer",
+      "id": 0
+    },
+    {
+      "name": "Doctor's Remote",
+      "description": "Reusable air strike",
+      "effect": "Explodes monsters in a 3x3 area around the selected tile",
+      "creator": "DoctorHummer",
+      "id": 1
+    },
+    {
+      "name": "The Poop",
+      "description": "Shit of piece",
+      "effect": "Spawns a random poop on the selected tile\nsed for Brown Ritual",
+      "creator": "DoctorHummer",
+      "id": 2
+    },
+    {
+      "name": "Telepathy For Dummies",
+      "description": "It's time to learn how",
+      "effect": "Gives babies' projectiles a homing effect similar to Little Steven's",
+      "creator": "DoctorHummer",
+      "id": 3
+    },
+    {
+      "name": "Monster Manuel",
+      "description": "Random buddy generator",
+      "effect": "Summons a random baby on the tile it is used on, including babies that haven't been obtained in the current run",
+      "creator": "DoctorHummer",
+      "id": 4
+    },
+    {
+      "name": "Sacrificial Altar",
+      "description": "It demands sacrifices",
+      "effect": "Kills the chosen baby and returns back 100% of it's cost. Babies killed with Sacrificial Altar will release a circle of damaging pellets (the amount of shots and their damage depends on baby's value)",
+      "creator": "DoctorHummer",
+      "id": 5
+    },
+    {
+      "name": "Kidney Bean",
+      "description": "Love toots!",
+      "effect": "Charms enemies in a 3x3 area",
+      "creator": "DoctorHummer",
+      "id": 6
+    },
+    {
+      "name": "Friend Ball",
+      "description": "Gotta fetch 'em all!",
+      "effect": "Lets the player catch enemies and later release them charmed",
+      "creator": "DoctorHummer",
+      "id": 7
+    },
+    {
+      "name": "Glowing Hourglass",
+      "description": "It's rewind time",
+      "effect": "Sends all monsters back to the start of the lane, including charmed ones",
+      "creator": "DoctorHummer",
+      "id": 8
+    },
+    {
+      "name": "Moving Box",
+      "description": "Pack and unpack",
+      "effect": "Allows the player to store a baby that carries between levels/stages and place it elsewhere",
+      "creator": "DoctorHummer",
+      "id": 9
+    },
+    {
+      "name": "Red Candle",
+      "description": "Destroys an entire line of monsters",
+      "effect": "Instantly kills a lane of monsters",
+      "creator": "DoctorHummer",
+      "id": 10
+    },
+    {
+      "name": "Blue Candle",
+      "description": "Destroys an entire column of monsters",
+      "effect": "Instantly kills a column of monsters Also can be used to buff Crispy Baby, Deserter and Paschal Candle",
+      "creator": "DoctorHummer",
+      "id": 11
+    },
+    {
+      "name": "Notched Axe",
+      "description": "Can destroy obstacles",
+      "effect": "Breaks monsters and babies out of amber/ice. Can also be used to destroy Stoners and Hardies. Each destroyed obstacle grants a heart if combined with Red Shovel",
+      "creator": "DoctorHummer",
+      "id": 12
+    },
+    {
+      "name": "Snowglobe",
+      "description": "Temporarily freezes all enemies on screen",
+      "effect": "Freezes all enemies on the board",
+      "creator": "DoctorHummer",
+      "id": 13
+    },
+    {
+      "name": "Breath Of Life",
+      "description": "Brings fallen babies back to life",
+      "effect": "Lets the player revive a dead baby",
+      "creator": "DoctorHummer",
+      "id": 14
+    },
+    {
+      "name": "Candy Heart",
+      "description": "Starts with more hearts, sacrificing your active slot",
+      "effect": "Start each level with 150 more hearts",
+      "creator": "DoctorHummer",
+      "id": 15
+    }
+]

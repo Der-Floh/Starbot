@@ -61,6 +61,28 @@ namespace Starbot
             }
         }
 
+        public async Task GetExistingIdea(string type, string text)
+        {
+            try
+            {
+                switch (type)
+                {
+                    case "Baby": await GetExistingBaby(text); break;
+                    case "Item": await GetExistingItem(text); break;
+                    case "ItemActive": await GetExistingItemActive(text); break;
+                    case "Enemy": await GetExistingEnemy(text); break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
         public async Task GetBestRatedIdea(string type, string text)
         {
             try
@@ -449,6 +471,55 @@ namespace Starbot
             }
         }
 
+        private async Task GetExistingBaby(string text)
+        {
+            ExistingBaby existingBaby = await Idea.GetExistingBaby(text);
+
+            if (existingBaby == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no existing Baby with the id or name: " + text + "```");
+                return;
+            }
+
+            await buildMessageExistingBaby(existingBaby);
+        }
+        private async Task GetExistingItem(string text)
+        {
+            ExistingItem existingItem = await Idea.GetExistingItem(text);
+
+            if (existingItem == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no existing Item with the id or name: " + text + "```");
+                return;
+            }
+
+            await buildMessageExistingItem(existingItem);
+        }
+        private async Task GetExistingItemActive(string text)
+        {
+            ExistingItemActive existingItemActive = await Idea.GetExistingItemActive(text);
+
+            if (existingItemActive == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no existing Active idea with the id or name: " + text + "```");
+                return;
+            }
+
+            await buildMessageExistingItemActive(existingItemActive);
+        }
+        private async Task GetExistingEnemy(string text)
+        {
+            ExistingEnemy existingEnemy = await Idea.GetExistingEnemy(text);
+
+            if (existingEnemy == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no existing Enemy with the id or name: " + text + "```");
+                return;
+            }
+
+            await buildMessageExistingEnemy(existingEnemy);
+        }
+
         private async Task<IUserMessage> buildMessageBaby(Baby baby)
         {
             EmbedBuilder builder = new EmbedBuilder();
@@ -530,6 +601,83 @@ namespace Starbot
             builder.AddField("Verified: ", enemy.verified, true);
             builder.AddField("Rating: ", enemy.rating, true);
             builder.AddField("Date: ", enemy.date.ToString("MM/dd/yyyy"), true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        private async Task<IUserMessage> buildMessageExistingBaby(ExistingBaby existingBaby)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + existingBaby.name);
+            builder.WithFooter("ID: " + existingBaby.id.ToString());
+            builder.WithColor(Color.Gold);
+
+            builder.AddField("Name: ", existingBaby.name, true);
+            builder.AddField("Cost: ", existingBaby.cost, true);
+            builder.AddField("HP: ", existingBaby.hp, true);
+            builder.AddField("Type: ", existingBaby.type, true);
+            builder.AddField("Damage: ", existingBaby.damage, true);
+            builder.AddField("Firerate: ", existingBaby.firerate, true);
+            builder.AddField("Recharge: ", existingBaby.recharge, true);
+            builder.AddField("Abilities: ", existingBaby.abilities, true);
+
+            builder.AddField("Unlocking: ", existingBaby.unlocking);
+            builder.AddField("Creator: ", existingBaby.creator, true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageExistingItem(ExistingItem existingItem)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + existingItem.name);
+            builder.WithFooter("ID: " + existingItem.id.ToString());
+            builder.WithColor(Color.Blue);
+
+            builder.AddField("Name: ", existingItem.name, true);
+            builder.AddField("Cost: ", existingItem.cost, true);
+            builder.AddField("Tier: ", existingItem.tier, true);
+            builder.AddField("Description: ", existingItem.description, true);
+            builder.AddField("Effect: ", existingItem.effect, true);
+
+            builder.AddField("Unlocking: ", existingItem.unlocking);
+            builder.AddField("Creator: ", existingItem.creator, true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageExistingItemActive(ExistingItemActive existingItemActive)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Item - " + existingItemActive.name);
+            builder.WithFooter("ID: " + existingItemActive.id.ToString());
+            builder.WithColor(Color.Green);
+
+            builder.AddField("Name: ", existingItemActive.name, true);
+            builder.AddField("Description: ", existingItemActive.description, true);
+            builder.AddField("Effect: ", existingItemActive.effect, true);
+
+            builder.AddField("Unlocking: ", existingItemActive.unlocking);
+            builder.AddField("Creator: ", existingItemActive.creator, true);
+
+            return await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        private async Task<IUserMessage> buildMessageExistingEnemy(ExistingEnemy existingEnemy)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithTitle(" Baby - " + existingEnemy.name);
+            builder.WithFooter("ID: " + existingEnemy.id.ToString());
+            builder.WithColor(Color.Red);
+
+            builder.AddField("Name: ", existingEnemy.name, true);
+            builder.AddField("HP: ", existingEnemy.hp, true);
+            builder.AddField("Type: ", existingEnemy.type, true);
+            builder.AddField("Damage: ", existingEnemy.damage, true);
+            builder.AddField("Firerate: ", existingEnemy.firerate, true);
+            builder.AddField("Walkspeed: ", existingEnemy.walkspeed, true);
+            builder.AddField("Abilities: ", existingEnemy.abilities, true);
+            builder.AddField("Appearance: ", existingEnemy.appearance, true);
+
+            builder.AddField("Unlocking: ", existingEnemy.unlocking);
+            builder.AddField("Creator: ", existingEnemy.creator, true);
 
             return await Context.Channel.SendMessageAsync("", false, builder.Build());
         }

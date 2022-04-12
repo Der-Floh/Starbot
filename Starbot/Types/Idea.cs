@@ -12,6 +12,10 @@ namespace Starbot.Types
         private static List<Item> _item;
         private static List<ItemActive> _itemActive;
         private static List<Enemy> _enemy;
+        private static List<ExistingBaby> _existingBaby;
+        private static List<ExistingItem> _existingItem;
+        private static List<ExistingItemActive> _existingItemActive;
+        private static List<ExistingEnemy> _existingEnemy;
         private static bool changedBaby;
         private static bool changedItem;
         private static bool changedItemActive;
@@ -44,6 +48,34 @@ namespace Starbot.Types
             if (_enemy == null)
             {
                 _enemy = new List<Enemy>();
+            }
+
+            _existingBaby = await jsonHandler.GetExistingBabies();
+            if (_existingBaby == null)
+            {
+                Console.WriteLine("Failed to load existing Babies");
+                _existingBaby = new List<ExistingBaby>();
+            }
+
+            _existingItem = await jsonHandler.GetExistingItems();
+            if (_existingItem == null)
+            {
+                Console.WriteLine("Failed to load existing Items");
+                _existingItem = new List<ExistingItem>();
+            }
+
+            _existingItemActive = await jsonHandler.GetExistingItemsActive();
+            if (_existingItemActive == null)
+            {
+                Console.WriteLine("Failed to load existing Active Items");
+                _existingItemActive = new List<ExistingItemActive>();
+            }
+
+            _existingEnemy = await jsonHandler.GetExistingEnemies();
+            if (_existingEnemy == null)
+            {
+                Console.WriteLine("Failed to load existing Enemies");
+                _existingEnemy = new List<ExistingEnemy>();
             }
 
             timer = new Timer(timerTick, new AutoResetEvent(false), 60000, 60000);
@@ -174,6 +206,107 @@ namespace Starbot.Types
                     if (enemy.name == msg)
                     {
                         return enemy;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static async Task<ExistingBaby> GetExistingBaby(string msg)
+        {
+            ulong id = 0;
+            if (ulong.TryParse(msg, out id))
+            {
+                foreach (ExistingBaby existingBaby in _existingBaby)
+                {
+                    if (existingBaby.id == id)
+                    {
+                        return existingBaby;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ExistingBaby existingBaby in _existingBaby)
+                {
+                    if (existingBaby.name == msg)
+                    {
+                        return existingBaby;
+                    }
+                }
+            }
+            return null;
+        }
+        public static async Task<ExistingItem> GetExistingItem(string msg)
+        {
+            ulong id = 0;
+            if (ulong.TryParse(msg, out id))
+            {
+                foreach (ExistingItem existingItem in _existingItem)
+                {
+                    if (existingItem.id == id)
+                    {
+                        return existingItem;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ExistingItem existingItem in _existingItem)
+                {
+                    if (existingItem.name == msg)
+                    {
+                        return existingItem;
+                    }
+                }
+            }
+            return null;
+        }
+        public static async Task<ExistingItemActive> GetExistingItemActive(string msg)
+        {
+            ulong id = 0;
+            if (ulong.TryParse(msg, out id))
+            {
+                foreach (ExistingItemActive existingItemActive in _existingItemActive)
+                {
+                    if (existingItemActive.id == id)
+                    {
+                        return existingItemActive;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ExistingItemActive existingItemActive in _existingItemActive)
+                {
+                    if (existingItemActive.name == msg)
+                    {
+                        return existingItemActive;
+                    }
+                }
+            }
+            return null;
+        }
+        public static async Task<ExistingEnemy> GetExistingEnemy(string msg)
+        {
+            ulong id = 0;
+            if (ulong.TryParse(msg, out id))
+            {
+                foreach (ExistingEnemy existingEnemy in _existingEnemy)
+                {
+                    if (existingEnemy.id == id)
+                    {
+                        return existingEnemy;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ExistingEnemy existingEnemy in _existingEnemy)
+                {
+                    if (existingEnemy.name == msg)
+                    {
+                        return existingEnemy;
                     }
                 }
             }

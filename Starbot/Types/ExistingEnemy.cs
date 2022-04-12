@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Starbot.Types
+{
+    public class ExistingEnemy
+    {
+        public string name { get; set; }
+        public int hp { get; set; }
+        public string type { get; set; }
+        public int damage { get; set; }
+        public float firerate { get; set; }
+        public float walkspeed { get; set; }
+        public string abilities { get; set; }
+        public string appearance { get; set; }
+
+        public string unlocking { get; set; }
+        public string creator { get; set; }
+        public ulong id { get; set; }
+    }
+}

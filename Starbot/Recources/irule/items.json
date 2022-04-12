@@ -1,0 +1,281 @@
+[
+  {
+    "name": "The Battary",
+    "cost": 99,
+    "tier": 2,
+    "description": "Stores energy",
+    "effect": "Babies have 2 charge bars, does not affect active items",
+    "creator": "DoctorHummer",
+    "id": 0
+  },
+  {
+    "name": "Steam Sale",
+    "cost": 99,
+    "tier": 2,
+    "description": "Gives a 33% discount in Stores",
+    "effect": "Items in stores cost 33% less",
+    "creator": "DoctorHummer",
+    "id": 1
+  },
+  {
+    "name": "Poke Go",
+    "cost": 99,
+    "tier": 2,
+    "description": "Gives you a random monster card at the start of the level",
+    "effect": "Allows the player to deploy a free charmed monster that changes every level",
+    "creator": "DoctorHummer",
+    "id": 2
+  },
+  {
+    "name": "Salvation",
+    "cost": 99,
+    "tier": 2,
+    "description": "In critical situation eliminates the entire row, saving you a charger",
+    "effect": "Creates a line of electricity in front of the player's chargers, which instantly kills an entire row of enemies when an enemy steps on it",
+    "creator": "DoctorHummer",
+    "id": 3
+  },
+  {
+    "name": "Schoolbag",
+    "cost": 99,
+    "tier": 2,
+    "description": "Allows you to carry one more baby with you",
+    "effect": "Allows the player to have 5 babies on hand instead of 4",
+    "creator": "DoctorHummer",
+    "id": 4
+  },
+  {
+    "name": "PHD",
+    "cost": 99,
+    "tier": 2,
+    "description": "Better pills, more knowledge",
+    "effect": "Makes all pills have good effects and allows the player to see the effects before using them for the first time",
+    "creator": "DoctorHummer",
+    "id": 5
+  },
+  {
+    "name": "Sanguine Bond",
+    "cost": 99,
+    "tier": 2,
+    "description": "Installs spikes in front of your defensive babies",
+    "effect": "Places a Spike Baby in front of defensive babies (Dry Baby, Cube of Meat, Tooth & Nail, etc.)",
+    "creator": "DoctorHummer",
+    "id": 6
+  },
+  {
+    "name": "The Black Bean",
+    "cost": 99,
+    "tier": 2,
+    "description": "Newly placed babies fart, poisoning nearby enemies",
+    "effect": "Newly placed babies leave a poison cloud that poisons all enemies around it",
+    "creator": "DoctorHummer",
+    "id": 7
+  },
+  {
+    "name": "Red Shovel",
+    "cost": 33,
+    "tier": 1,
+    "description": "Take back what belongs to you",
+    "effect": "Refunds half heart upon shoveling a baby",
+    "creator": "DoctorHummer",
+    "id": 8
+  },
+  {
+    "name": "Champion Belt",
+    "cost": 33,
+    "tier": 1,
+    "description": "More waves on each floor",
+    "effect": "Adds an extra wave to levels",
+    "creator": "DoctorHummer",
+    "id": 9
+  },
+  {
+    "name": "Little Baggy",
+    "cost": 33,
+    "tier": 1,
+    "description": "Allows to carry four pills",
+    "effect": "Gives the player an extra pill slot",
+    "creator": "DoctorHummer",
+    "id": 10
+  },
+  {
+    "name": "WindUp Key",
+    "cost": 33,
+    "tier": 1,
+    "description": "Manual launch",
+    "effect": "Lets you manually fire off chargers, Fistuloid and Dry Baby",
+    "creator": "DoctorHummer",
+    "id": 11
+  },
+  {
+    "name": "Flip",
+    "cost": 33,
+    "tier": 1,
+    "description": "Right Click to turn babies around",
+    "effect": "Allows the player to flip the direction a baby is facing (has a special interaction with Lil Loki)",
+    "creator": "DoctorHummer",
+    "id": 12
+  },
+  {
+    "name": "Stop Watch",
+    "cost": 33,
+    "tier": 1,
+    "description": "Let's slow this down a bit",
+    "effect": "Adds a button that slows down the game",
+    "creator": "DoctorHummer",
+    "id": 13
+  },
+  {
+    "name": "Eden's Blessing",
+    "cost": 33,
+    "tier": 1,
+    "description": "Your future shines brighter",
+    "effect": "The player will get an extra random baby and pill at the start of the next run",
+    "creator": "DoctorHummer",
+    "id": 14
+  },
+  {
+    "name": "The D6",
+    "cost": 33,
+    "tier": 1,
+    "description": "Reroll your destiny",
+    "effect": "Allows the player to reroll the baby choices after every level.",
+    "creator": "DoctorHummer",
+    "id": 15
+  },
+  {
+    "name": "<3",
+    "cost": 33,
+    "tier": 1,
+    "description": "Start with more hearts",
+    "effect": "Start every level with 50 more hearts",
+    "creator": "DoctorHummer",
+    "id": 16
+  },
+  {
+    "name": "More Options",
+    "cost": 33,
+    "tier": 1,
+    "description": "There's more options",
+    "effect": "Adds an additional baby option after every level",
+    "creator": "DoctorHummer",
+    "id": 17
+  },
+  {
+    "name": "Spider Mod",
+    "cost": 33,
+    "tier": 1,
+    "description": "Jarvis, show me their healthbars",
+    "effect": "Shows the health and defense of monsters and babies",
+    "creator": "DoctorHummer",
+    "id": 18
+  },
+  {
+    "name": "Crystal Ball",
+    "cost": 33,
+    "tier": 1,
+    "description": "Reveals the hidden options",
+    "effect": "Reveals the hidden baby at the end of every level and shows the baby inside Mystery Gift",
+    "creator": "DoctorHummer",
+    "id": 19
+  },
+  {
+    "name": "Evil Charm",
+    "cost": 33,
+    "tier": 1,
+    "description": "Shows where the monsters are coming from",
+    "effect": "Places arrows on the right side of the screen pointing at offscreen monsters",
+    "creator": "DoctorHummer",
+    "id": 20
+  },
+  {
+    "name": "Purple Heart",
+    "cost": 33,
+    "tier": 1,
+    "description": "Increases the chance of encountering champion enemies",
+    "effect": "Champions have a higher spawn chance",
+    "creator": "DoctorHummer",
+    "id": 21
+  },
+  {
+    "name": "Dirty Mind",
+    "cost": 33,
+    "tier": 1,
+    "description": "Filthy friends",
+    "effect": "Destroying poops creates friendly dips on the top and bottom of the poop pile (also works with squirts)",
+    "creator": "DoctorHummer",
+    "id": 22
+  },
+  {
+    "name": "Frosty Mint",
+    "cost": 33,
+    "tier": 1,
+    "description": "Freezes enemies biting your babies",
+    "effect": "Slows monsters while they are eating babies",
+    "creator": "DoctorHummer",
+    "id": 23
+  },
+  {
+    "name": "Mystery Gift",
+    "cost": 33,
+    "tier": 1,
+    "description": "Wrapped up nice for you",
+    "effect": "Gives a random baby when opened",
+    "creator": "DoctorHummer",
+    "id": 24
+  },
+  {
+    "name": "The Bean",
+    "cost": 33,
+    "tier": 1,
+    "description": "Baby farts when killed, pushing enemies back",
+    "effect": "Babies fart on death, pushing enemies away",
+    "creator": "DoctorHummer",
+    "id": 25
+  },
+  {
+    "name": "Dr. Medicine",
+    "cost": 33,
+    "tier": 1,
+    "description": "Allows you to replace damaged babies",
+    "effect": "Placing babies on top of existing ones heals them",
+    "creator": "DoctorHummer",
+    "id": 26
+  },
+  {
+    "name": "Blanket",
+    "cost": 33,
+    "tier": 1,
+    "description": "Babies on the closest row get a protective bubble",
+    "effect": "Gives all babies on the leftmost column a shield",
+    "creator": "DoctorHummer",
+    "id": 27
+  },
+  {
+    "name": "Sharp Plug",
+    "cost": 33,
+    "tier": 1,
+    "description": "When a baby is hit, the corresponding card gets charge",
+    "effect": "Recharges the corresponding baby's bar when it is hit",
+    "creator": "DoctorHummer",
+    "id": 28
+  },
+  {
+    "name": "Isaac's Fork",
+    "cost": 33,
+    "tier": 1,
+    "description": "Enemies killed with spikes or thorns will drop hearts",
+    "effect": "Enemies defeated by Spike Baby or Tooth & Nail drop hearts",
+    "creator": "DoctorHummer",
+    "id": 29
+  },
+  {
+    "name": "There's Options",
+    "cost": 33,
+    "tier": 1,
+    "description": "Two rewards after beating a Boss, only one can be taken",
+    "effect": "Adds an additional active item choice after beating a boss",
+    "creator": "DoctorHummer",
+    "id": 30
+  }
+]

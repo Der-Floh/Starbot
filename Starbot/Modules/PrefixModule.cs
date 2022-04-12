@@ -232,6 +232,31 @@ namespace Starbot.Modules
             await ideaHandler.GetIdea("Enemy", text);
         }
 
+        [Command("get-existing-baby")]
+        public async Task HandleGetExistingBabyCommand([Remainder] string text)
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetExistingIdea("Baby", text);
+        }
+        [Command("get-existing-item")]
+        public async Task HandleGetExistingItemCommand([Remainder] string text)
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetExistingIdea("Item", text);
+        }
+        [Command("get-existing-item-active")]
+        public async Task HandleGetExistingItemActiveCommand([Remainder] string text)
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetExistingIdea("ItemActive", text);
+        }
+        [Command("get-existing-enemy")]
+        public async Task HandleGetExistingEnemyCommand([Remainder] string text)
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetExistingIdea("Enemy", text);
+        }
+
 
         [Command("get-top-baby")]
         public async Task HandleGetTopBabyCommand([Remainder] string text)
