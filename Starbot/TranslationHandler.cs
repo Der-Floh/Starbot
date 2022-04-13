@@ -31,6 +31,7 @@ namespace Starbot
                     else
                     {
                         Console.WriteLine("Couldn't find existing translation location");
+                        await Context.Channel.SendMessageAsync("```diff\n- Couldn't find translation. Make sure the shortform is spelled correctly```");
                     }
                 }
                 else

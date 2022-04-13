@@ -32,6 +32,9 @@
     <None Update="Recources\irule\itemsActive.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Recources\irule\locales\cn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Recources\irule\locales\de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
