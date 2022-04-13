@@ -46,6 +46,8 @@ namespace Starbot.Modules
                 builder.AddField("!help-item", "Shows you what you can do with Item suggestions", false);
                 builder.AddField("!help-item-active", "Shows you what you can do with Active Item suggestions", false);
                 builder.AddField("!help-enemy", "Shows you what you can do with Enemy suggestions", false);
+                builder.AddField("!help-translation", "Shows you what you can do with translations", false);
+                builder.AddField("!help-wiki", "Shows you what you can do with the wiki integration", false);
 
                 IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
@@ -72,6 +74,11 @@ namespace Starbot.Modules
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-baby");
                 builder.AddField("Gets a baby idea by entering the babies id or name", "!get-baby id/name", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!get-existing-baby");
+                builder.AddField("Gets an existing baby by entering the babies id or name", "!get-existing-baby id/name", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
@@ -105,6 +112,11 @@ namespace Starbot.Modules
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
+                builder.WithTitle("!get-existing-item");
+                builder.AddField("Gets an existing item by entering the items id or name", "!get-existing-item id/name", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-item");
                 builder.AddField("Gets the best rated item ideas by entering the number of the items", "!get-top-item 10", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
@@ -132,6 +144,11 @@ namespace Starbot.Modules
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-item-active");
                 builder.AddField("Gets an active item idea by entering the items id or name", "!get-item-active id/name", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!get-existing-item-active");
+                builder.AddField("Gets an existing active item by entering the items id or name", "!get-existing-item-active id/name", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
@@ -165,8 +182,108 @@ namespace Starbot.Modules
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
+                builder.WithTitle("!get-existing-enemy");
+                builder.AddField("Gets an existing enemy by entering the enemies id or name", "!get-existing-enemy id/name", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-enemy");
                 builder.AddField("Gets the best rated enemy ideas by entering the number of the enemies", "!get-top-enemy 10", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
+        [Command("help-translation")]
+        public async Task HandleHelpTranslationCommand()
+        {
+            try
+            {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithTitle("!get-translation");
+                builder.AddField("Gets the translation of language entered in shortform", "!get-translation en", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
+        [Command("help-wiki")]
+        public async Task HandleHelpWikiCommand()
+        {
+            try
+            {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithTitle("!wiki");
+                builder.AddField("Sends the link to the I.Rule wiki", "!wiki", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-baby");
+                builder.AddField("Sends the link to the I.Rule Babies wiki subpage", "!wiki-baby", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-item");
+                builder.AddField("Sends the link to the I.Rule Items wiki subpage", "!wiki-item", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-enemy");
+                builder.AddField("Sends the link to the I.Rule Enemies wiki subpage", "!wiki-enemy", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-boss");
+                builder.AddField("Sends the link to the I.Rule Bosses wiki subpage", "!wiki-boss", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-modes");
+                builder.AddField("Sends the link to the I.Rule Game Modes wiki subpage", "!wiki-modes", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-floor");
+                builder.AddField("Sends the link to the I.Rule Floors wiki subpage", "!wiki-floor", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-obstacle");
+                builder.AddField("Sends the link to the I.Rule Obstacles wiki subpage", "!wiki-obstacle", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-achievement");
+                builder.AddField("Sends the link to the I.Rule Achievements wiki subpage", "!wiki-achievement", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-pill");
+                builder.AddField("Sends the link to the I.Rule Pills wiki subpage", "!wiki-pill", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-update");
+                builder.AddField("Sends the link to the I.Rule Update history wiki subpage", "!wiki-update", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!wiki-effect");
+                builder.AddField("Sends the link to the I.Rule Effects wiki subpage", "!wiki-effect", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -281,6 +398,99 @@ namespace Starbot.Modules
         {
             IdeaHandler ideaHandler = new IdeaHandler(Context);
             await ideaHandler.GetBestRatedIdea("Enemy", text);
+        }
+
+        [Command("wiki")]
+        public async Task HandleWikiCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Homepage: ", "[Wiki-Home](https://i-rule.fandom.com/wiki/I_RULE_Wiki)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+            //await Context.Channel.SendMessageAsync("```diff\n[Wiki-Home](https://i-rule.fandom.com/wiki/I_RULE_Wiki)```");
+        }
+        [Command("wiki-baby")]
+        public async Task HandleWikiBabyCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Babies page: ", "[Wiki-Babies](https://i-rule.fandom.com/wiki/Babies)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-item")]
+        public async Task HandleWikiItemCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Items page: ", "[Wiki-Items](https://i-rule.fandom.com/wiki/Items)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-enemy")]
+        public async Task HandleWikiEnemyCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Enemies page: ", "[Wiki-Enemies](https://i-rule.fandom.com/wiki/Enemies)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-boss")]
+        public async Task HandleWikiBossCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Bosses page: ", "[Wiki-Bosses](https://i-rule.fandom.com/wiki/Bosses)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-mode")]
+        public async Task HandleWikiModeCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Game Modes page: ", "[Wiki-GameModes](https://i-rule.fandom.com/wiki/Game_Modes)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-floor")]
+        public async Task HandleWikiFloorCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Floors page: ", "[Wiki-Floors](https://i-rule.fandom.com/wiki/Floors)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-obstacle")]
+        public async Task HandleWikiObstacleCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Obstacles page: ", "[Wiki-Obstacles](https://i-rule.fandom.com/wiki/Obstacles)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-achievement")]
+        public async Task HandleWikiAchievementCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Achievements page: ", "[Wiki-Achievements](https://i-rule.fandom.com/wiki/Achievements)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-pill")]
+        public async Task HandleWikiPillCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Pills page: ", "[Wiki-Pills](https://i-rule.fandom.com/wiki/Pills)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-update")]
+        public async Task HandleWikiUpdateCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Update history page: ", "[Wiki-UpdateHistory](https://i-rule.fandom.com/wiki/Update_history)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("wiki-effect")]
+        public async Task HandleWikiEffectCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Effects page: ", "[Wiki-Effects](https://i-rule.fandom.com/wiki/Effects)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("get-translation")]
+        public async Task HandleGetTranslationCommand([Remainder] string text)
+        {
+            TranslationHandler translationHandler = new TranslationHandler(Context);
+            await translationHandler.GetTranslation(text);
         }
     }
 }

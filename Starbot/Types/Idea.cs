@@ -8,6 +8,7 @@ namespace Starbot.Types
 {
     public static class Idea
     {
+        //there could be some translation integration and a command to bring up wiki pages though
         private static List<Baby> _baby;
         private static List<Item> _item;
         private static List<ItemActive> _itemActive;
