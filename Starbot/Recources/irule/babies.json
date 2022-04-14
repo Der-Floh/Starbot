@@ -10,7 +10,7 @@
       "abilities": "First line of defense, shoots tears at attacking monsters",
       "unlocking": "Default",
       "creator": "DoctorHummer",
-      "id": 0
+      "id": 2
     },
     {
       "name": "Lil C.H.A.D.",
@@ -23,7 +23,7 @@
       "abilities": "Produces extra hearts",
       "unlocking": "Default",
       "creator": "DoctorHummer",
-      "id": 1
+      "id": 3
     },
     {
       "name": "Cube of Meat",
@@ -36,7 +36,7 @@
       "abilities": "Has high durability, can be used to protect other babies",
       "unlocking": "Default",
       "creator": "DoctorHummer",
-      "id": 2
+      "id": 4
     },
     {
       "name": "Bob's Brain",
@@ -49,7 +49,7 @@
       "abilities": "Explodes on contact, but takes time to grow up",
       "unlocking": "Default",
       "creator": "DoctorHummer",
-      "id": 3
+      "id": 5
     },
     {
       "name": "Lil Loki",
@@ -60,9 +60,9 @@
       "firerate": 0.91,
       "recharge": 6.50,
       "abilities": "Shoots tears in all four cardinal directions",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 4
+      "id": 6
     },
     {
       "name": "Harlequin Baby",
@@ -73,9 +73,9 @@
       "firerate": 1.16,
       "recharge": 5.00,
       "abilities": "Shoots tears at two adjacent lanes, but can't defend itself",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 5
+      "id": 7
     },
     {
       "name": "Wiz Baby",
@@ -86,9 +86,9 @@
       "firerate": 0.75,
       "recharge": 5.00,
       "abilities": "Shoots tears in two diagonal directions, but can't defend itself",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 6
+      "id": 8
     },
     {
       "name": "Freezer Baby",
@@ -99,9 +99,9 @@
       "firerate": 1.16,
       "recharge": -1,
       "abilities": "Shoots frozen tears, making it harder for enemies to advance",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 7
+      "id": 9
     },
     {
       "name": "Hallowed Ground",
@@ -112,9 +112,9 @@
       "firerate": 0,
       "recharge": 25.00,
       "abilities": "Increases the speed and productivity of other babies in a 3x3 area",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 8
+      "id": 10
     },
     {
       "name": "BBF",
@@ -125,9 +125,9 @@
       "firerate": 2.00,
       "recharge": 20.00,
       "abilities": "Explodes when placed, blowing up monsters in a 3x3 area",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 9
+      "id": 11
     },
     {
       "name": "Farting Baby",
@@ -138,9 +138,9 @@
       "firerate": -1,
       "recharge": 8.30,
       "abilities": "Diverts enemies into other lanes",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 10
+      "id": 12
     },
     {
       "name": "Mongo  Baby",
@@ -151,9 +151,9 @@
       "firerate": 1.16,
       "recharge": -1,
       "abilities": "Mimics the shooting style of the baby behind it",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 11
+      "id": 13
     },
     {
       "name": "Little Steven",
@@ -164,9 +164,9 @@
       "firerate": 1.16,
       "recharge": -1,
       "abilities": "Shoots homing tears, targeting enemies on adjacent lines",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 12
+      "id": 14
     },
     {
       "name": "Multidimensional Baby",
@@ -177,9 +177,9 @@
       "firerate": 0,
       "recharge": -1,
       "abilities": "Duplicates projectiles that fly through it",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 13
+      "id": 15
     },
     {
       "name": "Spider Baby",
@@ -190,9 +190,9 @@
       "firerate": 2.33,
       "recharge": 7.00,
       "abilities": "Lobs spider eggs, slowing enemies on hit with released web",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 14
+      "id": 16
     },
     {
       "name": "Rainbow Baby",
@@ -203,9 +203,9 @@
       "firerate": 1.16,
       "recharge": 10.00,
       "abilities": "Shoots tears with random effects",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 15
+      "id": 17
     },
     {
       "name": "Rubber Soul",
@@ -216,9 +216,9 @@
       "firerate": 2.16,
       "recharge": -1,
       "abilities": "Lobs rubber balls that bounce from enemy to enemy",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 16
+      "id": 18
     },
     {
       "name": "Ghost Baby",
@@ -229,9 +229,9 @@
       "firerate": 1.50,
       "recharge": -1,
       "abilities": "Fires a spectral tear that can damage multiple enemies",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 17
+      "id": 19
     },
     {
       "name": "Spike Baby",
@@ -242,9 +242,9 @@
       "firerate": 0.50,
       "recharge": 6.00,
       "abilities": "Hurts any enemies that step on it",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 18
+      "id": 20
     },
     {
       "name": "Mystery Egg",
@@ -257,7 +257,7 @@
       "abilities": "Protects the line by spawning charmed monsters",
       "unlocking": "Break 30 amber chunks",
       "creator": "DoctorHummer",
-      "id": 19
+      "id": 21
     },
     {
       "name": "Demon Baby",
@@ -268,9 +268,9 @@
       "firerate": 0.60,
       "recharge": -1,
       "abilities": "Shoots tears at all nearby enemies in a 5x5 area",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 20
+      "id": 22
     },
     {
       "name": "Tooth & Nail",
@@ -283,7 +283,7 @@
       "abilities": "Defends while dealing damage to enemies attacking it",
       "unlocking": "Setup two rows of Spike Babies",
       "creator": "DoctorHummer",
-      "id": 21
+      "id": 23
     },
     {
       "name": "Acid Baby",
@@ -296,7 +296,7 @@
       "abilities": "Shares pill effects between nearest babies in a 3x3 area",
       "unlocking": "Feed 3 pills to one baby",
       "creator": "DoctorHummer",
-      "id": 22
+      "id": 24
     },
     {
       "name": "Abel",
@@ -307,9 +307,9 @@
       "firerate": 1.16,
       "recharge": 10.00,
       "abilities": "Creates a shadow copy that shoots in the opposite direction",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 23
+      "id": 25
     },
     {
       "name": "Dry Baby",
@@ -322,7 +322,7 @@
       "abilities": "Provides protection, and explodes upon death",
       "unlocking": "Destroy 10 enemies with one explosion",
       "creator": "DoctorHummer",
-      "id": 24
+      "id": 26
     },
     {
       "name": "Deserter",
@@ -335,7 +335,7 @@
       "abilities": "Breathes fire, damaging monsters in 6 adjacent tiles",
       "unlocking": "Complete any level with only red babies in deck",
       "creator": "DoctorHummer",
-      "id": 25
+      "id": 27
     },
     {
       "name": "Crispy Baby",
@@ -346,9 +346,9 @@
       "firerate": 1.66,
       "recharge": 10.00,
       "abilities": "Shoots fire balls down the lane",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 26
+      "id": 28
     },
     {
       "name": "Paschal Candle",
@@ -361,7 +361,7 @@
       "abilities": "Turns tears that pass through it into explosive fire balls",
       "unlocking": "Complete Challenge N2",
       "creator": "DoctorHummer",
-      "id": 27
+      "id": 29
     },
     {
       "name": "Pegasus",
@@ -372,9 +372,9 @@
       "firerate": -1,
       "recharge": 10.00,
       "abilities": "Creates streams of wind blowing enemies away",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 28
+      "id": 30
     },
     {
       "name": "Snowball",
@@ -387,7 +387,7 @@
       "abilities": "Instantly freezes monsters in a 3x6 area",
       "unlocking": "Defuse a Mulliboom",
       "creator": "DoctorHummer",
-      "id": 29
+      "id": 31
     },
     {
       "name": "Lost Soul",
@@ -398,9 +398,9 @@
       "firerate": 0,
       "recharge": 0,
       "abilities": "Protect him and he'll reward you",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 30
+      "id": 32
     },
     {
       "name": "Double Baby",
@@ -413,7 +413,7 @@
       "abilities": "Gives twice as much hearts as Lil C.H.A.D",
       "unlocking": "Complete every chapter without using heartproducing babies",
       "creator": "DoctorHummer",
-      "id": 31
+      "id": 33
     },
     {
       "name": "Fistuloid",
@@ -426,7 +426,7 @@
       "abilities": "When its armor is destroyed, it rushes down the line biting enemies",
       "unlocking": "Complete every chapter without losing your chargers",
       "creator": "DoctorHummer",
-      "id": 32
+      "id": 34
     },
     {
       "name": "Juicy Sack",
@@ -439,7 +439,7 @@
       "abilities": "Provides protection and slows down nearby monsters",
       "unlocking": "Complete Challenge N1",
       "creator": "DoctorHummer",
-      "id": 33
+      "id": 35
     },
     {
       "name": "Psychic Baby",
@@ -452,7 +452,7 @@
       "abilities": "Can hit up to three targets in its lane, twice!",
       "unlocking": "Complete Challenge N3",
       "creator": "DoctorHummer",
-      "id": 34
+      "id": 36
     },
     {
       "name": "Peeping",
@@ -465,7 +465,7 @@
       "abilities": "Lobs clots of blood at targets that are closest to your room.",
       "unlocking": "Complete every chapter choosing only hidden babies",
       "creator": "DoctorHummer",
-      "id": 35
+      "id": 37
     },
     {
       "name": "Imp",
@@ -476,9 +476,9 @@
       "firerate": 1.00,
       "recharge": -1,
       "abilities": "Shortrange shooter that cost nothing!",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 36
+      "id": 38
     },
     {
       "name": "Fiend Baby",
@@ -491,7 +491,7 @@
       "abilities": "Shoots fireballs that create friendly Imps out of defeated enemies",
       "unlocking": "Complete the Brown Ritual",
       "creator": "DoctorHummer",
-      "id": 37
+      "id": 39
     },
     {
       "name": "Parasitoid",
@@ -504,7 +504,7 @@
       "abilities": "Shoots egg tears that split into friendly flies",
       "unlocking": "Complete Challenge N4",
       "creator": "DoctorHummer",
-      "id": 38
+      "id": 40
     },
     {
       "name": "Brain Worm",
@@ -517,7 +517,7 @@
       "abilities": "Their tears snap 90 degrees to target enemies that they may have missed",
       "unlocking": "Complete Challenge N5",
       "creator": "DoctorHummer",
-      "id": 39
+      "id": 41
     },
     {
       "name": "Ball of Bandages",
@@ -530,7 +530,7 @@
       "abilities": "Provides protection and attracts enemies from other lanes",
       "unlocking": "Complete Challenge N6",
       "creator": "DoctorHummer",
-      "id": 40
+      "id": 42
     },
     {
       "name": "Baby Pluto",
@@ -541,8 +541,8 @@
       "firerate": 0.36,
       "recharge": -1,
       "abilities": "Shoot orbiting tears",
-      "unlocking": "",
+      "unlocking": "Unlocked by Default",
       "creator": "DoctorHummer",
-      "id": 41
+      "id": 43
     }
 ]

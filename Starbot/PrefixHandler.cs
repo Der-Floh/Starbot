@@ -47,10 +47,13 @@ namespace Starbot
 
             var context = new SocketCommandContext(_client, message);
 
-            await _commands.ExecuteAsync(
-                context: context,
-                argPos: argPos,
-                services: null);
+            await _commands.ExecuteAsync(context: context, argPos: argPos, services: null);
+
+            /*
+            new Thread(() =>
+            {
+                _commands.ExecuteAsync(context: context, argPos: argPos, services: null);
+            }).Start();*/
         }
     }
 }

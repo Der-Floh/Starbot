@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Timers;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -14,6 +15,34 @@ namespace Starbot.Modules
 {
     public class PrefixModule : ModuleBase<SocketCommandContext>
     {
+        private static System.Timers.Timer CommandDelay;
+        private static bool commandDelayed = true;
+        public PrefixModule()
+        {
+            CommandDelay = new System.Timers.Timer(1000);
+            CommandDelay.Elapsed += TimerTick;
+            CommandDelay.AutoReset = false;
+        }
+        private static async void TimerTick(object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("Command Delay");
+            if (!commandDelayed)
+            {
+                commandDelayed = true;
+            }
+        }
+        private async Task StartTopIdeaDelay(string delayString)
+        {
+            int delay = -1;
+            int.TryParse(delayString, out delay);
+            if (delay != -1)
+            {
+                commandDelayed = false;
+                CommandDelay.Interval = (delay + 10) * 1000;
+                CommandDelay.Start();
+            }
+        }
+
         [Command("ping")]
         public async Task HandlePingCommand()
         {
@@ -228,6 +257,22 @@ namespace Starbot.Modules
             {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.WithTitle("!wiki");
+                builder.AddField("!wiki", "Sends the link to the I.Rule wiki", true);
+                builder.AddField("!wiki-baby", "Sends the link to the I.Rule Babies wiki subpage", true);
+                builder.AddField("!wiki-item", "Sends the link to the I.Rule Items wiki subpage", true);
+                builder.AddField("!wiki-enemy", "Sends the link to the I.Rule Enemies wiki subpage", true);
+                builder.AddField("!wiki-bosses", "Sends the link to the I.Rule Bosses wiki subpage", true);
+                builder.AddField("!wiki-modes", "Sends the link to the I.Rule Game Modes wiki subpage", true);
+                builder.AddField("!wiki-floors", "Sends the link to the I.Rule Floors wiki subpage", true);
+                builder.AddField("!wiki-obstacles", "Sends the link to the I.Rule Obstacles wiki subpage", true);
+                builder.AddField("!wiki-achievements", "Sends the link to the I.Rule Achievements wiki subpage", true);
+                builder.AddField("!wiki-pills", "Sends the link to the I.Rule Pills wiki subpage", true);
+                builder.AddField("!wiki-updates", "Sends the link to the I.Rule Update history wiki subpage", true);
+                builder.AddField("!wiki-effects", "Sends the link to the I.Rule Effects wiki subpage", true);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+                /*
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithTitle("!wiki");
                 builder.AddField("Sends the link to the I.Rule wiki", "!wiki", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
@@ -247,8 +292,8 @@ namespace Starbot.Modules
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-boss");
-                builder.AddField("Sends the link to the I.Rule Bosses wiki subpage", "!wiki-boss", false);
+                builder.WithTitle("!wiki-bosses");
+                builder.AddField("Sends the link to the I.Rule Bosses wiki subpage", "!wiki-bosses", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
@@ -257,34 +302,35 @@ namespace Starbot.Modules
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-floor");
-                builder.AddField("Sends the link to the I.Rule Floors wiki subpage", "!wiki-floor", false);
+                builder.WithTitle("!wiki-floors");
+                builder.AddField("Sends the link to the I.Rule Floors wiki subpage", "!wiki-floors", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-obstacle");
-                builder.AddField("Sends the link to the I.Rule Obstacles wiki subpage", "!wiki-obstacle", false);
+                builder.WithTitle("!wiki-obstacles");
+                builder.AddField("Sends the link to the I.Rule Obstacles wiki subpage", "!wiki-obstacles", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-achievement");
-                builder.AddField("Sends the link to the I.Rule Achievements wiki subpage", "!wiki-achievement", false);
+                builder.WithTitle("!wiki-achievements");
+                builder.AddField("Sends the link to the I.Rule Achievements wiki subpage", "!wiki-achievements", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-pill");
-                builder.AddField("Sends the link to the I.Rule Pills wiki subpage", "!wiki-pill", false);
+                builder.WithTitle("!wiki-pills");
+                builder.AddField("Sends the link to the I.Rule Pills wiki subpage", "!wiki-pills", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-update");
-                builder.AddField("Sends the link to the I.Rule Update history wiki subpage", "!wiki-update", false);
+                builder.WithTitle("!wiki-updates");
+                builder.AddField("Sends the link to the I.Rule Update history wiki subpage", "!wiki-updates", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
-                builder.WithTitle("!wiki-effect");
-                builder.AddField("Sends the link to the I.Rule Effects wiki subpage", "!wiki-effect", false);
+                builder.WithTitle("!wiki-effects");
+                builder.AddField("Sends the link to the I.Rule Effects wiki subpage", "!wiki-effects", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
+                */
             }
             catch (Exception ex)
             {
@@ -378,26 +424,75 @@ namespace Starbot.Modules
         [Command("get-top-baby")]
         public async Task HandleGetTopBabyCommand([Remainder] string text)
         {
+            if (!commandDelayed)
+            {
+                Console.WriteLine("Command Delay still active");
+                return;
+            }
             IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await StartTopIdeaDelay(text);
             await ideaHandler.GetBestRatedIdea("Baby", text);
+        }
+        [Command("get-top-baby")]
+        public async Task HandleGetTopBabyOneCommand()
+        {
+            Console.WriteLine("test");
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetBestRatedIdea("Baby", "1");
         }
         [Command("get-top-item")]
         public async Task HandleGetTopItemCommand([Remainder] string text)
         {
+            if (!commandDelayed)
+            {
+                Console.WriteLine("Command Delay still active");
+                return;
+            }
             IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await StartTopIdeaDelay(text);
             await ideaHandler.GetBestRatedIdea("Item", text);
+        }
+        [Command("get-top-item")]
+        public async Task HandleGetTopItemOneCommand()
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetBestRatedIdea("Item", "1");
         }
         [Command("get-top-item-active")]
         public async Task HandleGetTopItemActiveCommand([Remainder] string text)
         {
+            if (!commandDelayed)
+            {
+                Console.WriteLine("Command Delay still active");
+                return;
+            }
             IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await StartTopIdeaDelay(text);
             await ideaHandler.GetBestRatedIdea("ItemActive", text);
+        }
+        [Command("get-top-item-active")]
+        public async Task HandleGetTopItemActiveOneCommand()
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetBestRatedIdea("ItemActive", "1");
         }
         [Command("get-top-enemy")]
         public async Task HandleGetTopEnemyCommand([Remainder] string text)
         {
+            if (!commandDelayed)
+            {
+                Console.WriteLine("Command Delay still active");
+                return;
+            }
             IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await StartTopIdeaDelay(text);
             await ideaHandler.GetBestRatedIdea("Enemy", text);
+        }
+        [Command("get-top-enemy")]
+        public async Task HandleGetTopEnemyOneCommand()
+        {
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.GetBestRatedIdea("Enemy", "1");
         }
 
         [Command("wiki")]
@@ -406,7 +501,6 @@ namespace Starbot.Modules
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Homepage: ", "[Wiki-Home](https://i-rule.fandom.com/wiki/I_RULE_Wiki)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
-            //await Context.Channel.SendMessageAsync("```diff\n[Wiki-Home](https://i-rule.fandom.com/wiki/I_RULE_Wiki)```");
         }
         [Command("wiki-baby")]
         public async Task HandleWikiBabyCommand()
@@ -429,56 +523,56 @@ namespace Starbot.Modules
             builder.AddField("I.Rule Enemies page: ", "[Wiki-Enemies](https://i-rule.fandom.com/wiki/Enemies)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-boss")]
+        [Command("wiki-bosses")]
         public async Task HandleWikiBossCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Bosses page: ", "[Wiki-Bosses](https://i-rule.fandom.com/wiki/Bosses)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-mode")]
+        [Command("wiki-modes")]
         public async Task HandleWikiModeCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Game Modes page: ", "[Wiki-GameModes](https://i-rule.fandom.com/wiki/Game_Modes)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-floor")]
+        [Command("wiki-floors")]
         public async Task HandleWikiFloorCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Floors page: ", "[Wiki-Floors](https://i-rule.fandom.com/wiki/Floors)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-obstacle")]
+        [Command("wiki-obstacles")]
         public async Task HandleWikiObstacleCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Obstacles page: ", "[Wiki-Obstacles](https://i-rule.fandom.com/wiki/Obstacles)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-achievement")]
+        [Command("wiki-achievements")]
         public async Task HandleWikiAchievementCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Achievements page: ", "[Wiki-Achievements](https://i-rule.fandom.com/wiki/Achievements)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-pill")]
+        [Command("wiki-pills")]
         public async Task HandleWikiPillCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Pills page: ", "[Wiki-Pills](https://i-rule.fandom.com/wiki/Pills)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-update")]
+        [Command("wiki-updates")]
         public async Task HandleWikiUpdateCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("I.Rule Update history page: ", "[Wiki-UpdateHistory](https://i-rule.fandom.com/wiki/Update_history)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-effect")]
+        [Command("wiki-effects")]
         public async Task HandleWikiEffectCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();

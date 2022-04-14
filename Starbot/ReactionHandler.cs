@@ -35,11 +35,15 @@ namespace Discord_I.Rule_Suggestions_Bot
             int thumbsDownCount = 0;
             if (reaction.Emote.Name == "👍" || reaction.Emote.Name == "👎")
             {
-                var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 100).FlattenAsync();
+                var emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👍"), 1000).FlattenAsync();
                 thumbsUpCount = emotes.Count();
                 
-                emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 100).FlattenAsync();
+                emotes = await reactionMsg.GetReactionUsersAsync(new Emoji("👎"), 1000).FlattenAsync();
                 thumbsDownCount = emotes.Count();
+            }
+            else
+            {
+                return;
             }
             int rating = thumbsUpCount - thumbsDownCount;
 
