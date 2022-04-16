@@ -17,9 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Recources\irule\babies.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
