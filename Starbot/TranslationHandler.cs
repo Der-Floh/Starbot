@@ -23,7 +23,7 @@ namespace Starbot
             {
                 if (text.Length == 2)
                 {
-                    string fileName = @"Recources\irule\locales\" + text + ".json";
+                    string fileName = @"Recources/irule/locales/" + text + ".json";
                     if (File.Exists(fileName))
                     {
                         await Context.Channel.SendFileAsync(fileName);
@@ -47,6 +47,25 @@ namespace Starbot
                 Console.ResetColor();
                 await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
             }
+        }
+
+        public async Task GetTranslators()
+        {
+            var channel = Context.Guild.Channels.SingleOrDefault(x => x.Id == 959764938329587712) as IMessageChannel; //Translation channel id = 946083102118281296
+            if (channel == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- Couldn't find Translation channel.```");
+                return;
+            }
+
+            var translatorMsg = await channel.GetMessageAsync(964520970599661648); //Translators message id = 946083126214545408
+            if (translatorMsg == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- Couldn't find Translators.```");
+                return;
+            }
+            
+            Console.WriteLine(translatorMsg.Content);
         }
     }
 }

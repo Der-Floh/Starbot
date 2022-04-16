@@ -70,6 +70,7 @@ namespace Starbot.Modules
                 builder.WithTitle("Help-Commandlist");
 
                 builder.AddField("!ping", "Sends a ping to the bot, to see if its online\n", false);
+                builder.AddField("!itch-irule", "Sends a link to the Itch.io homepage of I.Rule\n", false);
 
                 builder.AddField("!help-baby", "Shows you what you can do with Baby suggestions", false);
                 builder.AddField("!help-item", "Shows you what you can do with Item suggestions", false);
@@ -77,6 +78,7 @@ namespace Starbot.Modules
                 builder.AddField("!help-enemy", "Shows you what you can do with Enemy suggestions", false);
                 builder.AddField("!help-translation", "Shows you what you can do with translations", false);
                 builder.AddField("!help-wiki", "Shows you what you can do with the wiki integration", false);
+                builder.AddField("!help-github", "Shows you which github links are available", false);
 
                 IUserMessage userMessage = await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
@@ -112,7 +114,7 @@ namespace Starbot.Modules
 
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-baby");
-                builder.AddField("Gets the best rated baby ideas by entering the number of the babies", "!get-top-baby 10", false);
+                builder.AddField("Gets the best rated baby ideas by entering the number of best babies", "!get-top-baby 10", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -147,7 +149,7 @@ namespace Starbot.Modules
 
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-item");
-                builder.AddField("Gets the best rated item ideas by entering the number of the items", "!get-top-item 10", false);
+                builder.AddField("Gets the best rated item ideas by entering the number of best items", "!get-top-item 10", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -182,7 +184,7 @@ namespace Starbot.Modules
 
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-item-active");
-                builder.AddField("Gets the best rated active item ideas by entering the number of the active items", "!get-top-item-active 10", false);
+                builder.AddField("Gets the best rated active item ideas by entering the number of best active items", "!get-top-item-active 10", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -217,7 +219,7 @@ namespace Starbot.Modules
 
                 builder = new EmbedBuilder();
                 builder.WithTitle("!get-top-enemy");
-                builder.AddField("Gets the best rated enemy ideas by entering the number of the enemies", "!get-top-enemy 10", false);
+                builder.AddField("Gets the best rated enemy ideas by entering the number of best enemies", "!get-top-enemy 10", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -238,6 +240,11 @@ namespace Starbot.Modules
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.WithTitle("!get-translation");
                 builder.AddField("Gets the translation of language entered in shortform", "!get-translation en", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!get-translators");
+                builder.AddField("Gets all translators of I.Rule", "!get-translators", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
@@ -331,6 +338,36 @@ namespace Starbot.Modules
                 builder.AddField("Sends the link to the I.Rule Effects wiki subpage", "!wiki-effects", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
                 */
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
+        [Command("help-github")]
+        public async Task HandleHelpGithubCommand()
+        {
+            try
+            {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.WithTitle("!github-releases");
+                builder.AddField("Sends a link to the Github Releases page of I.Rule", "!github-releases", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!github-ruler");
+                builder.AddField("Sends a link to the Github Ruler page of I.Rule", "!github-releases", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
+
+                builder = new EmbedBuilder();
+                builder.WithTitle("!github-translations");
+                builder.AddField("Sends a link to the Github Translations page of I.Rule", "!github-releases", false);
+                await Context.Channel.SendMessageAsync("", false, builder.Build());
             }
             catch (Exception ex)
             {
@@ -580,11 +617,60 @@ namespace Starbot.Modules
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
 
+        [Command("github-releases")]
+        public async Task HandleGithubIRuleCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Releases Github page: ", "[Github-Releases](https://github.com/Steviegt6/i-rule-storage)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("github-ruler")]
+        public async Task HandleGithubRulerCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Ruler Github page: ", "[Github-Ruler](https://github.com/Steviegt6/ruler)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+        [Command("github-translation")]
+        public async Task HandleGithubTranslationCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Translations Github page: ", "[Github-Translations](https://github.com/Steviegt6/i-rule-translations)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
+        [Command("itch-irule")]
+        public async Task HandleItchIRuleCommand()
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("I.Rule Itch.io page: ", "[I-Rule](https://doctorhummer.itch.io/irule)", true);
+            await Context.Channel.SendMessageAsync("", false, builder.Build());
+        }
+
         [Command("get-translation")]
         public async Task HandleGetTranslationCommand([Remainder] string text)
         {
             TranslationHandler translationHandler = new TranslationHandler(Context);
             await translationHandler.GetTranslation(text);
+        }
+        [Command("get-translators")]
+        public async Task HandleGetTranslatorsCommand()
+        {
+            TranslationHandler translationHandler = new TranslationHandler(Context);
+            await translationHandler.GetTranslators();
+        }
+
+        [Command("killbot")]
+        public async Task HandleKillBotCommand()
+        {
+            var user = Context.User as SocketGuildUser;
+            if (user == null) return;
+
+            var role = user.Roles.SingleOrDefault(x => x.Id == 807325063757037589); //admin role id = 329532167791312896
+            if (role == null) return;
+
+            Console.WriteLine("Killed by Admin");
+            Environment.Exit(0);
         }
     }
 }

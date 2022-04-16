@@ -121,13 +121,8 @@ namespace Starbot
         {
             string[] statNames = { "Name", "Cost", "HP", "Type", "Damage", "Firerate", "Recharge", "Abilities" };
             string[] stats = await GetIdeaStats(statNames, text);
-            /*
-            string statMsg = "";
-            for (int i = 0; i < stats.Length; i++)
-            {
-                statMsg += statNames[i] + ": " + stats[i] + "\n";
-            }
-            */
+
+            if (stats == null) return;
             //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
@@ -135,16 +130,16 @@ namespace Starbot
             Baby baby = new Baby();
             baby.id = Context.Message.Id;
             baby.name = stats[0];
-            int.TryParse(stats[1], out parsedInt);
+            if (!int.TryParse(stats[1], out parsedInt)) parsedInt = await StringValueCostToIntBaby(stats[1]);
             baby.cost = parsedInt;
-            int.TryParse(stats[2], out parsedInt);
+            if (!int.TryParse(stats[2], out parsedInt)) parsedInt = await StringValueHPToIntBaby(stats[2]);
             baby.hp = parsedInt;
             baby.type = stats[3];
-            int.TryParse(stats[4], out parsedInt);
+            if (!int.TryParse(stats[4], out parsedInt)) parsedInt = await StringValueDamageToIntBaby(stats[4]);
             baby.damage = parsedInt;
-            float.TryParse(stats[5], out parsedFloat);
+            if (!float.TryParse(stats[5], out parsedFloat)) parsedFloat = await StringValueFirerateToFloatBaby(stats[5]);
             baby.firerate = parsedFloat;
-            float.TryParse(stats[6], out parsedFloat);
+            if (!float.TryParse(stats[6], out parsedFloat)) parsedFloat = await StringValueRechargeToFloatBaby(stats[6]);
             baby.recharge = parsedFloat;
             baby.abilities = stats[7];
 
@@ -154,6 +149,12 @@ namespace Starbot
             baby.date = DateTime.Now;
 
             //await Context.Message.ReplyAsync("Not fully implemented yet");
+
+            stats[1] = baby.cost.ToString();
+            stats[2] = baby.hp.ToString();
+            stats[4] = baby.damage.ToString();
+            stats[5] = baby.firerate.ToString();
+            stats[6] = baby.recharge.ToString();
 
             await Context.Message.DeleteAsync();
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Baby");
@@ -170,16 +171,39 @@ namespace Starbot
             string[] statNames = { "Name", "Cost", "Tier", "Description", "Effect" };
             string[] stats = await GetIdeaStats(statNames, text);
 
+            if (stats == null) return;
             //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
             Item item = new Item();
             item.id = Context.Message.Id;
             item.name = stats[0];
-            int.TryParse(stats[1], out parsedInt);
+            if (!int.TryParse(stats[1], out parsedInt)) parsedInt = await StringValueCostToIntItem(stats[1]);
             item.cost = parsedInt;
-            int.TryParse(stats[2], out parsedInt);
-            item.tier = parsedInt;
+            switch (item.cost)
+            {
+                case 33:
+                    item.tier = 1;
+                    break;
+                case 99:
+                    item.tier = 2;
+                    break;
+            }
+            if (item.cost != 33 && item.cost != 99)
+            {
+                if (!int.TryParse(stats[2], out parsedInt)) parsedInt = await StringValueTierToIntItem(stats[2]);
+                item.tier = parsedInt;
+                switch (item.tier)
+                {
+                    case 1:
+                        item.cost = 33;
+                        break;
+                    case 2:
+                        item.cost = 99;
+                        break;
+                }
+            }
+            
             item.description = stats[3];
             item.effect = stats[4];
 
@@ -187,6 +211,9 @@ namespace Starbot
             item.verified = false;
             item.rating = 0;
             item.date = DateTime.Now;
+
+            stats[1] = item.cost.ToString();
+            stats[2] = item.tier.ToString();
 
             await Context.Message.DeleteAsync();
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Item");
@@ -203,6 +230,7 @@ namespace Starbot
             string[] statNames = { "Name", "Description", "Effect" };
             string[] stats = await GetIdeaStats(statNames, text);
 
+            if (stats == null) return;
             //JsonHandler jsonHandler = new JsonHandler();
 
             ItemActive itemActive = new ItemActive();
@@ -231,6 +259,7 @@ namespace Starbot
             string[] statNames = { "Name", "HP", "Type", "Damage", "Firerate", "Walkspeed", "Abilities", "Appearance"};
             string[] stats = await GetIdeaStats(statNames, text);
 
+            if (stats == null) return;
             //JsonHandler jsonHandler = new JsonHandler();
 
             int parsedInt = 0;
@@ -238,10 +267,10 @@ namespace Starbot
             Enemy enemy = new Enemy();
             enemy.id = Context.Message.Id;
             enemy.name = stats[0];
-            int.TryParse(stats[1], out parsedInt);
+            if (!int.TryParse(stats[1], out parsedInt)) parsedInt = await StringValueHPToIntEnemy(stats[1]);
             enemy.hp = parsedInt;
             enemy.type = stats[2];
-            int.TryParse(stats[3], out parsedInt);
+            if (!int.TryParse(stats[3], out parsedInt)) parsedInt = await StringValueDamageToIntEnemy(stats[3]);
             enemy.damage = parsedInt;
             float.TryParse(stats[4], out parsedFloat);
             enemy.firerate = parsedFloat;
@@ -254,6 +283,11 @@ namespace Starbot
             enemy.verified = false;
             enemy.rating = 0;
             enemy.date = DateTime.Now;
+
+            stats[1] = enemy.hp.ToString();
+            stats[3] = enemy.damage.ToString();
+            stats[4] = enemy.firerate.ToString();
+            stats[5] = enemy.walkspeed.ToString();
 
             await Context.Message.DeleteAsync();
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "Enemy");
@@ -272,38 +306,58 @@ namespace Starbot
             int last = 0;
             string[] stats = new string[statNames.Length];
 
+            string equalsString = "=";
+            if (!text.Contains('='))
+            {
+                if (text.Contains(':'))
+                {
+                    Console.WriteLine("No '=' found setting equalsString to ':'");
+                    equalsString = ":";
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't find equalsString");
+                    return null;
+                }
+            }
+
             for (int i = 0; i <= statNames.Length - 1; i++)
             {
-                if (text.Contains(statNames[i]))
+                if (text.Contains(statNames[i], StringComparison.OrdinalIgnoreCase))
                 {
-                    first = text.IndexOf(statNames[i] + "=") + (statNames[i] + "=").Length;
+                    first = text.IndexOf(statNames[i] + equalsString, StringComparison.OrdinalIgnoreCase) + (statNames[i] + equalsString).Length;
                     //last = text.LastIndexOf(statNames[i + 1]);
                     last = text.Length;
                     for (int j = i + 1; j < statNames.Length; j++)
                     {
                         //last = text.Length;
-                        if (text.Contains(statNames[j] + "="))
+                        if (text.Contains(statNames[j] + equalsString, StringComparison.OrdinalIgnoreCase))
                         {
-                            last = text.LastIndexOf(statNames[j] + "=");
+                            last = text.LastIndexOf(statNames[j] + equalsString, StringComparison.OrdinalIgnoreCase);
                             break;
                         }
                     }
                     stats[i] = text.Substring(first, last - first);
                     stats[i] = stats[i].Replace("\n", "");
+                    
+                    while (stats[i][0] == ' ')
+                    {
+                        stats[i] = stats[i].Remove(0, 1);
+                    }/*
                     if (stats[i][0] == ' ')
                     {
                         stats[i] = stats[i].Remove(0, 1);
                         Console.WriteLine("Removed space=" + stats[i]);
-                    }
+                    }*/
                 }
                 else
                 {
                     stats[i] = "-";
                 }
             }
-            if (text.Contains(statNames[statNames.Length - 1]))
+            if (text.Contains(statNames[statNames.Length - 1], StringComparison.OrdinalIgnoreCase))
             {
-                first = text.IndexOf(statNames[statNames.Length - 1] + "=") + (statNames[statNames.Length - 1] + "=").Length;
+                first = text.IndexOf(statNames[statNames.Length - 1] + equalsString, StringComparison.OrdinalIgnoreCase) + (statNames[statNames.Length - 1] + equalsString).Length;
                 last = text.Length;
                 stats[statNames.Length - 1] = text.Substring(first, last - first);
                 stats[statNames.Length - 1] = stats[statNames.Length - 1].Replace("\n", "");
@@ -339,6 +393,200 @@ namespace Starbot
                 x.Embed = builder.Build();
             });
             return userMessage;
+        }
+
+        private async Task<int> StringValueCostToIntBaby(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 25;
+                case "little": return 25;
+                case "low": return 25;
+                case "normal": return 100;
+                case "middle": return 100;
+                case "average": return 100;
+                case "high": return 200;
+                case "big": return 200;
+                case "huge": return 300;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueHPToIntBaby(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 40;
+                case "little": return 40;
+                case "low": return 40;
+                case "normal": return 80;
+                case "middle": return 80;
+                case "average": return 80;
+                case "high": return 400;
+                case "big": return 400;
+                case "huge": return 400;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueDamageToIntBaby(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 16;
+                case "little": return 16;
+                case "low": return 16;
+                case "normal": return 20;
+                case "middle": return 20;
+                case "average": return 20;
+                case "high": return 40;
+                case "big": return 40;
+                case "huge": return 60;
+                case "explosion": return 2000;
+                case "exploding": return 2000;
+            }
+            return 0;
+        }
+        private async Task<float> StringValueFirerateToFloatBaby(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 0.75f;
+                case "little": return 0.75f;
+                case "low": return 0.75f;
+                case "normal": return 1.16f;
+                case "middle": return 1.16f;
+                case "average": return 1.16f;
+                case "high": return 30;
+                case "big": return 30;
+                case "huge": return 50;
+            }
+            return 0;
+        }
+        private async Task<float> StringValueRechargeToFloatBaby(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 2.5f;
+                case "little": return 2.5f;
+                case "low": return 2.5f;
+                case "normal": return 5;
+                case "middle": return 5;
+                case "average": return 5;
+                case "high": return 16.5f;
+                case "big": return 16.5f;
+                case "huge": return 20;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueCostToIntItem(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 33;
+                case "little": return 33;
+                case "low": return 33;
+                case "normal": return 33;
+                case "middle": return 33;
+                case "average": return 33;
+                case "high": return 99;
+                case "big": return 99;
+                case "huge": return 133;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueTierToIntItem(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 1;
+                case "little": return 1;
+                case "low": return 1;
+                case "normal": return 1;
+                case "middle": return 1;
+                case "average": return 1;
+                case "high": return 2;
+                case "big": return 2;
+                case "huge": return 3;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueHPToIntEnemy(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 50;
+                case "little": return 50;
+                case "low": return 50;
+                case "normal": return 200;
+                case "middle": return 200;
+                case "average": return 200;
+                case "high": return 500;
+                case "big": return 500;
+                case "stone": return 1000;
+                case "hard": return 1000;
+                case "huge": return 2000;
+            }
+            return 0;
+        }
+        private async Task<int> StringValueDamageToIntEnemy(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 4;
+                case "little": return 4;
+                case "low": return 4;
+                case "normal": return 8;
+                case "middle": return 8;
+                case "average": return 8;
+                case "high": return 25;
+                case "big": return 25;
+                case "huge": return 50;
+                case "infinite": return 400;
+                case "infinity": return 400;
+            }
+            return 0;
+        }
+        private async Task<float> StringValueFirerateToFloatEnemy(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 0;
+                case "little": return 0;
+                case "low": return 0;
+                case "normal": return 0;
+                case "middle": return 0;
+                case "average": return 0;
+                case "high": return 0;
+                case "big": return 0;
+                case "huge": return 0;
+            }
+            return 0;
+        }
+        private async Task<float> StringValueWalkspeedToFloatEnemy(string strValue)
+        {
+            strValue = strValue.ToLower();
+            switch (strValue)
+            {
+                case "small": return 0;
+                case "little": return 0;
+                case "low": return 0;
+                case "normal": return 0;
+                case "middle": return 0;
+                case "average": return 0;
+                case "high": return 0;
+                case "big": return 0;
+                case "huge": return 0;
+            }
+            return 0;
         }
 
         private async Task GetIdeaBaby(string text)

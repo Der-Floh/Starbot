@@ -13,7 +13,7 @@ namespace Starbot
     {
         public async Task WriteBaby(List<Baby> _baby)
         {
-            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            string fileName = @"Suggestion-Files/Baby-Ideas.json";
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             using FileStream createStream = File.Create(fileName);
@@ -22,7 +22,7 @@ namespace Starbot
         }
         public async Task WriteItem(List<Item> _item)
         {
-            string fileName = @"Suggestion-Files\Item-Ideas.json";
+            string fileName = @"Suggestion-Files/Item-Ideas.json";
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             using FileStream createStream = File.Create(fileName);
@@ -31,7 +31,7 @@ namespace Starbot
         }
         public async Task WriteItemActive(List<ItemActive> _itemActive)
         {
-            string fileName = @"Suggestion-Files\ItemActive-Ideas.json";
+            string fileName = @"Suggestion-Files/ItemActive-Ideas.json";
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             using FileStream createStream = File.Create(fileName);
@@ -40,7 +40,7 @@ namespace Starbot
         }
         public async Task WriteEnemy(List<Enemy> _enemy)
         {
-            string fileName = @"Suggestion-Files\Enemy-Ideas.json";
+            string fileName = @"Suggestion-Files/Enemy-Ideas.json";
 
             var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
             using FileStream createStream = File.Create(fileName);
@@ -50,7 +50,7 @@ namespace Starbot
 
         public async Task<List<Baby>> GetBabies()
         {
-            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            string fileName = @"Suggestion-Files/Baby-Ideas.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -66,7 +66,7 @@ namespace Starbot
         }
         public async Task<List<Item>> GetItems()
         {
-            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            string fileName = @"Suggestion-Files/Baby-Ideas.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -82,7 +82,7 @@ namespace Starbot
         }
         public async Task<List<ItemActive>> GetItemsActive()
         {
-            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            string fileName = @"Suggestion-Files/Baby-Ideas.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -98,7 +98,7 @@ namespace Starbot
         }
         public async Task<List<Enemy>> GetEnemies()
         {
-            string fileName = @"Suggestion-Files\Baby-Ideas.json";
+            string fileName = @"Suggestion-Files/Baby-Ideas.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -114,7 +114,7 @@ namespace Starbot
         }
         public async Task<List<ExistingBaby>> GetExistingBabies()
         {
-            string fileName = @"Recources\irule\babies.json";
+            string fileName = @"Recources/irule/babies.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -130,7 +130,7 @@ namespace Starbot
         }
         public async Task<List<ExistingItem>> GetExistingItems()
         {
-            string fileName = @"Recources\irule\items.json";
+            string fileName = @"Recources/irule/items.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -146,7 +146,7 @@ namespace Starbot
         }
         public async Task<List<ExistingItemActive>> GetExistingItemsActive()
         {
-            string fileName = @"Recources\irule\itemsActive.json";
+            string fileName = @"Recources/irule/itemsActive.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);
@@ -162,7 +162,7 @@ namespace Starbot
         }
         public async Task<List<ExistingEnemy>> GetExistingEnemies()
         {
-            string fileName = @"Recources\irule\enemies.json";
+            string fileName = @"Recources/irule/enemies.json";
             if (File.Exists(fileName))
             {
                 using FileStream openStream = File.OpenRead(fileName);

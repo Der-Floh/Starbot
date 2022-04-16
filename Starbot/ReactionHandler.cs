@@ -28,9 +28,12 @@ namespace Discord_I.Rule_Suggestions_Bot
         private async Task HandleReactionAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
         {
             if (reaction.User.Value.IsBot) return;
-            
 
             IUserMessage reactionMsg = message.GetOrDownloadAsync().Result;
+
+            if (!reactionMsg.Author.IsBot) return;
+            if (!reactionMsg.Reactions.TryGetValue(new Emoji("💾"), out ReactionMetadata reactionMetadata)) return;
+
             int thumbsUpCount = 0;
             int thumbsDownCount = 0;
             if (reaction.Emote.Name == "👍" || reaction.Emote.Name == "👎")
@@ -49,9 +52,6 @@ namespace Discord_I.Rule_Suggestions_Bot
 
             IEmbed[] embed = reactionMsg.Embeds.ToArray();
             string type = embed[0].ToString().Substring(0, embed[0].ToString().IndexOf(" "));
-
-            //JsonHandler jsonHandler = new JsonHandler();
-            //await jsonHandler.SetRating(reactionMsg.Id, type, rating);
 
             switch (type)
             {

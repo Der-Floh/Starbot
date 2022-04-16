@@ -27,9 +27,9 @@ namespace SuggestionsBot
         public async Task MainAsync()
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Suggestion-Files"))
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + @"/Suggestion-Files"))
             {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Suggestion-Files");
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"/Suggestion-Files");
             }
             await Idea.InitIdea();
 
