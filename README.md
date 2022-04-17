@@ -5,6 +5,9 @@ A Discordbot to automatically read and save the I.Rule suggestions made in the S
 
 ### Help Commands:
 ```
+!i-help  |  Shows you the other help commands
+```
+```
 !help-baby  |  Shows you what you can do with Baby suggestions
 ```
 ```
