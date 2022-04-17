@@ -159,7 +159,7 @@ Appearance= text
 !wiki-item  |  Sends the link to the I.Rule Items wiki subpage
 ```
 ```
-!wiki-enemy  |  Sends the link to the I.Rule Enemies wiki subpage
+!wiki-enemies  |  Sends the link to the I.Rule Enemies wiki subpage
 ```
 ```
 !wiki-bosses  |  Sends the link to the I.Rule Bosses wiki subpage
