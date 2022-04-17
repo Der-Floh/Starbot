@@ -1,0 +1,32 @@
+[
+    {
+      "name": "en",
+      "description": "English",
+      "filename": "en.json"
+    },
+    {
+      "name": "ru",
+      "description": "Russian",
+      "filename": "ru.json"
+    },
+    {
+      "name": "de",
+      "description": "German",
+      "filename": "de.json"
+    },
+    {
+      "name": "fr",
+      "description": "French",
+      "filename": "fr.json"
+    },
+    {
+      "name": "es",
+      "description": "Spanisch",
+      "filename": "es.json"
+    },
+    {
+      "name": "cn",
+      "description": "Chinese",
+      "filename": "cn.json"
+    }
+]

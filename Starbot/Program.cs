@@ -32,6 +32,7 @@ namespace SuggestionsBot
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"/Suggestion-Files");
             }
             await Idea.InitIdea();
+            await Translations.InitTranslations();
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -133,6 +134,7 @@ namespace SuggestionsBot
         private void OnProcessExit(object sender, EventArgs e)
         {
             Idea.WriteToJson();
+            Translations.WriteToJson();
         }
 
         static bool IsDebug()

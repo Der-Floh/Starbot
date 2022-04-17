@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -663,14 +664,40 @@ namespace Starbot.Modules
         [Command("killbot")]
         public async Task HandleKillBotCommand()
         {
-            var user = Context.User as SocketGuildUser;
-            if (user == null) return;
-
-            var role = user.Roles.SingleOrDefault(x => x.Id == 807325063757037589); //admin role id = 329532167791312896
-            if (role == null) return;
+            if (await IsAdmin() == false) return;
 
             Console.WriteLine("Killed by Admin");
             Environment.Exit(0);
+        }
+
+        [Command("translations-sync")]
+        public async Task HandleSyncTranslationsCommand()
+        {
+            if (await IsAdmin() == false) return;
+
+            TranslationHandler translationHandler = new TranslationHandler(Context);
+
+            await translationHandler.SyncTranslations();
+        }
+        [Command("translations-add")]
+        public async Task HandleAddTranslationsCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            TranslationHandler translationHandler = new TranslationHandler(Context);
+
+            await translationHandler.AddTranslation(text);
+        }
+
+        private async Task<bool> IsAdmin()
+        {
+            var user = Context.User as SocketGuildUser;
+            if (user == null) return false;
+
+            var role = user.Roles.SingleOrDefault(x => x.Id == 807325063757037589); //admin role id = 329532167791312896
+            if (role == null) return false;
+
+            return true;
         }
     }
 }

@@ -176,5 +176,31 @@ namespace Starbot
             }
             return null;
         }
+
+        public async Task<List<Translation>> GetCurrTranslations()
+        {
+            string fileName = @"Recources/irule/translations.json";
+            if (File.Exists(fileName))
+            {
+                using FileStream openStream = File.OpenRead(fileName);
+                List<Translation> translations = await JsonSerializer.DeserializeAsync<List<Translation>>(openStream);
+                await openStream.DisposeAsync();
+                return translations;
+            }
+            else
+            {
+                Console.WriteLine("Couldn't find existing translations location");
+            }
+            return null;
+        }
+        public async Task WriteTranslations(List<Translation> translation)
+        {
+            string fileName = @"Recources/irule/translations.json";
+
+            var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+            using FileStream createStream = File.Create(fileName);
+            await JsonSerializer.SerializeAsync(createStream, translation, jsonOptions);
+            await createStream.DisposeAsync();
+        }
     }
 }

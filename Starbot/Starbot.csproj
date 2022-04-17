@@ -50,6 +50,9 @@
     <None Update="Recources\irule\locales\ru.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Recources\irule\translations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Recources\Starbot-Logo.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
