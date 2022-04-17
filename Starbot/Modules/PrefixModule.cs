@@ -204,7 +204,7 @@ namespace Starbot.Modules
             {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.WithTitle("!idea-enemy");
-                builder.AddField("Adds a new Baby idea by using the following syntax", "Name= \nHP= \nType= \nDamage= \nFirerate= \nWalkspeed= \nAbilities= \nAppearance= ", false);
+                builder.AddField("Adds a new Enemy idea by using the following syntax", "Name= \nHP= \nType= \nDamage= \nFirerate= \nWalkspeed= \nAbilities= \nAppearance= ", false);
                 await Context.Channel.SendMessageAsync("", false, builder.Build());
 
                 builder = new EmbedBuilder();
@@ -267,7 +267,7 @@ namespace Starbot.Modules
                 builder.AddField("!wiki", "Sends the link to the I.Rule wiki", true);
                 builder.AddField("!wiki-baby", "Sends the link to the I.Rule Babies wiki subpage", true);
                 builder.AddField("!wiki-item", "Sends the link to the I.Rule Items wiki subpage", true);
-                builder.AddField("!wiki-enemy", "Sends the link to the I.Rule Enemies wiki subpage", true);
+                builder.AddField("!wiki-enemies", "Sends the link to the I.Rule Enemies wiki subpage", true);
                 builder.AddField("!wiki-bosses", "Sends the link to the I.Rule Bosses wiki subpage", true);
                 builder.AddField("!wiki-modes", "Sends the link to the I.Rule Game Modes wiki subpage", true);
                 builder.AddField("!wiki-floors", "Sends the link to the I.Rule Floors wiki subpage", true);
@@ -553,7 +553,7 @@ namespace Starbot.Modules
             builder.AddField("I.Rule Items page: ", "[Wiki-Items](https://i-rule.fandom.com/wiki/Items)", true);
             await Context.Channel.SendMessageAsync("", false, builder.Build());
         }
-        [Command("wiki-enemy")]
+        [Command("wiki-enemies")]
         public async Task HandleWikiEnemyCommand()
         {
             EmbedBuilder builder = new EmbedBuilder();
