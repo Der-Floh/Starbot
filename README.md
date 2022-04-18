@@ -1,5 +1,5 @@
 # Starbot
-A Discordbot to automatically read and save the I.Rule suggestions made in the StarBox server
+A Discordbot for the Starbox server to manage suggestions and support the community with many useful functions
 
 ## Current functions of Starbot:
 
