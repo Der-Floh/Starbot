@@ -380,7 +380,7 @@ namespace Starbot.Modules
             }
         }
 
-        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //--User-Commands-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         [Command("idea-baby")]
         public async Task HandleBabyIdeaCommand([Remainder]string text)
@@ -659,6 +659,82 @@ namespace Starbot.Modules
         {
             TranslationHandler translationHandler = new TranslationHandler(Context);
             await translationHandler.GetTranslators();
+        }
+
+        //--Admin-Commands-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        [Command("delete-baby")]
+        public async Task HandleDeleteBabyCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdea("Baby", text);
+        }
+        [Command("delete-item")]
+        public async Task HandleDeleteItemCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdea("Item", text);
+        }
+        [Command("delete-item-active")]
+        public async Task HandleDeleteItemActiveCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdea("ItemActive", text);
+        }
+        [Command("delete-enemy")]
+        public async Task HandleDeleteEnemyCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdea("Enemy", text);
+        }
+
+        [Command("delete-baby-all")]
+        public async Task HandleDeleteAllBabyCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdeaAll("Baby", text);
+        }
+        [Command("delete-item-all")]
+        public async Task HandleDeleteAllItemCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdeaAll("Item", text);
+        }
+        [Command("delete-item-active-all")]
+        public async Task HandleDeleteAllItemActiveCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdeaAll("ItemActive", text);
+        }
+        [Command("delete-enemy-all")]
+        public async Task HandleDeleteAllEnemyCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdeaAll("Enemy", text);
+        }
+        [Command("delete-all")]
+        public async Task HandleDeleteAllCommand([Remainder] string text)
+        {
+            if (await IsAdmin() == false) return;
+
+            IdeaHandler ideaHandler = new IdeaHandler(Context);
+            await ideaHandler.DeleteIdeaAll("All", text);
         }
 
         [Command("killbot")]

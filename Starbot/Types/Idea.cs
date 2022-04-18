@@ -21,6 +21,14 @@ namespace Starbot.Types
         private static bool changedItem;
         private static bool changedItemActive;
         private static bool changedEnemy;
+        public static ulong deleteBaby;
+        public static ulong deleteItem;
+        public static ulong deleteItemActive;
+        public static ulong deleteEnemy;
+        public static ulong deleteBabyUserID;
+        public static ulong deleteItemUserID;
+        public static ulong deleteItemActiveUserID;
+        public static ulong deleteEnemyUserID;
         private static Timer timer;
 
         public static async Task InitIdea()
@@ -388,6 +396,7 @@ namespace Starbot.Types
                     babies.Add(baby);
                 }
                 i++;
+                if (i == 10) break;
             }
             return babies;
         }
@@ -412,6 +421,7 @@ namespace Starbot.Types
                     items.Add(item);
                 }
                 i++;
+                if (i == 10) break;
             }
             return items;
         }
@@ -436,6 +446,7 @@ namespace Starbot.Types
                     itemsActive.Add(itemActive);
                 }
                 i++;
+                if (i == 10) break;
             }
             return itemsActive;
         }
@@ -460,8 +471,51 @@ namespace Starbot.Types
                     enemies.Add(enemy);
                 }
                 i++;
+                if (i == 10) break;
             }
             return enemies;
+        }
+
+        public static async Task DeleteBaby(Baby baby)
+        {
+            _baby.Remove(baby);
+            changedBaby = true;
+        }
+        public static async Task DeleteItem(Item item)
+        {
+            _item.Remove(item);
+            changedItem = true;
+        }
+        public static async Task DeleteItemActive(ItemActive itemActive)
+        {
+            _itemActive.Remove(itemActive);
+            changedItemActive = true;
+        }
+        public static async Task DeleteEnemy(Enemy enemy)
+        {
+            _enemy.Remove(enemy);
+            changedEnemy = true;
+        }
+
+        public static async Task DeleteAllBaby(int delRating)
+        {
+            _baby.RemoveAll(baby => baby.rating <= delRating);
+            changedBaby = true;
+        }
+        public static async Task DeleteAllItem(int delRating)
+        {
+            _item.RemoveAll(item => item.rating <= delRating);
+            changedItem = true;
+        }
+        public static async Task DeleteAllItemActive(int delRating)
+        {
+            _itemActive.RemoveAll(itemActive => itemActive.rating <= delRating);
+            changedItemActive = true;
+        }
+        public static async Task DeleteAllEnemy(int delRating)
+        {
+            _enemy.RemoveAll(enemy => enemy.rating <= delRating);
+            changedEnemy = true;
         }
 
         public static async Task WriteToJson()

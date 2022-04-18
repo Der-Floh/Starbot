@@ -7,15 +7,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Starbot
 {
     public class IdeaHandler
     {
         private SocketCommandContext Context;
+        private System.Timers.Timer deletionTime;
         public IdeaHandler(SocketCommandContext _context)
         {
             Context = _context;
+
+            deletionTime = new System.Timers.Timer(30000);
+            deletionTime.Elapsed += TimerTick;
+            deletionTime.AutoReset = false;
+        }
+        private async void TimerTick(object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("Deletion canceled");
+            Idea.deleteBaby = 0;
+            Idea.deleteItem = 0;
+            Idea.deleteItemActive = 0;
+            Idea.deleteEnemy = 0;
         }
         public async Task NewIdea(string text, string type)
         {
@@ -117,6 +131,51 @@ namespace Starbot
             }
         }
 
+        public async Task DeleteIdea(string type, string text)
+        {
+            try
+            {
+                switch (type)
+                {
+                    case "Baby": await DeleteIdeaBaby(text); break;
+                    case "Item": await DeleteIdeaItem(text); break;
+                    case "ItemActive": await DeleteIdeaItemActive(text); break;
+                    case "Enemy": await DeleteIdeaEnemy(text); break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
+        public async Task DeleteIdeaAll(string type, string text)
+        {
+            try
+            {
+                switch (type)
+                {
+                    case "Baby": await DeleteAllIdeaBaby(text); break;
+                    case "Item": await DeleteAllIdeaItem(text); break;
+                    case "ItemActive": await DeleteAllIdeaItemActive(text); break;
+                    case "Enemy": await DeleteAllIdeaEnemy(text); break;
+                    case "All": await DeleteAllIdea(text); break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Catched Error");
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                await Context.Channel.SendMessageAsync("```diff\n- The command resolved in an error!\n\n" + ex + "```");
+            }
+        }
+
         private async Task IdeaBaby(string text)
         {
             string[] statNames = { "Name", "Cost", "HP", "Type", "Damage", "Firerate", "Recharge", "Abilities" };
@@ -148,7 +207,9 @@ namespace Starbot
             baby.rating = 0;
             baby.date = DateTime.Now;
 
-            //await Context.Message.ReplyAsync("Not fully implemented yet");
+            if (baby.name.Length <= 2) return;
+            if (baby.abilities.Length <= 2) return;
+            if (baby.firerate <= 0) return;
 
             stats[1] = baby.cost.ToString();
             stats[2] = baby.hp.ToString();
@@ -212,6 +273,10 @@ namespace Starbot
             item.rating = 0;
             item.date = DateTime.Now;
 
+            if (item.name.Length <= 2) return;
+            if (item.cost <= 0) return;
+            if (item.description.Length <= 2 && item.effect.Length <= 2) return;
+
             stats[1] = item.cost.ToString();
             stats[2] = item.tier.ToString();
 
@@ -243,6 +308,9 @@ namespace Starbot
             itemActive.verified = false;
             itemActive.rating = 0;
             itemActive.date = DateTime.Now;
+
+            if (itemActive.name.Length <= 2) return;
+            if (itemActive.description.Length <= 2 && itemActive.effect.Length <= 2) return;
 
             await Context.Message.DeleteAsync();
             IUserMessage botMessage = await SendEmbedIdea(statNames, stats, "ItemActive");
@@ -283,6 +351,8 @@ namespace Starbot
             enemy.verified = false;
             enemy.rating = 0;
             enemy.date = DateTime.Now;
+
+            if (enemy.name.Length <= 2) return;
 
             stats[1] = enemy.hp.ToString();
             stats[3] = enemy.damage.ToString();
@@ -766,6 +836,236 @@ namespace Starbot
             }
 
             await buildMessageExistingEnemy(existingEnemy);
+        }
+
+        private async Task DeleteIdeaBaby(string text)
+        {
+            Baby baby = await Idea.GetBaby(text);
+
+            if (baby == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Baby idea with the id or name: " + text + "```");
+                return;
+            }
+
+            if (baby.id == Idea.deleteBaby && Context.User.Id == Idea.deleteBabyUserID)
+            {
+                Idea.deleteBaby = 0;
+                Idea.deleteBabyUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteBaby(baby);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted Baby```");
+            }
+            else
+            {
+                Idea.deleteBaby = baby.id;
+                Idea.deleteBabyUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await buildMessageBaby(baby);
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of the Baby above, by typing the command again```");
+            }
+        }
+        private async Task DeleteIdeaItem(string text)
+        {
+            Item item = await Idea.GetItem(text);
+
+            if (item == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the id or name: " + text + "```");
+                return;
+            }
+
+            if (item.id == Idea.deleteItem && Context.User.Id == Idea.deleteItemUserID)
+            {
+                Idea.deleteItem = 0;
+                Idea.deleteItemUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteItem(item);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted Item```");
+            }
+            else
+            {
+                Idea.deleteItem = item.id;
+                Idea.deleteItemUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await buildMessageItem(item);
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of the Item above, by typing the command again```");
+            }
+        }
+        private async Task DeleteIdeaItemActive(string text)
+        {
+            ItemActive itemActive = await Idea.GetItemActive(text);
+
+            if (itemActive == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the id or name: " + text + "```");
+                return;
+            }
+
+            if (itemActive.id == Idea.deleteItemActive && Context.User.Id == Idea.deleteItemActiveUserID)
+            {
+                Idea.deleteItemActive = 0;
+                Idea.deleteItemActiveUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteItemActive(itemActive);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted Item```");
+            }
+            else
+            {
+                Idea.deleteItemActive = itemActive.id;
+                Idea.deleteItemActiveUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await buildMessageItemActive(itemActive);
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of the Active Item above, by typing the command again```");
+            }
+        }
+        private async Task DeleteIdeaEnemy(string text)
+        {
+            Enemy enemy = await Idea.GetEnemy(text);
+
+            if (enemy == null)
+            {
+                await Context.Channel.SendMessageAsync("```diff\n- There is no Item idea with the id or name: " + text + "```");
+                return;
+            }
+
+            if (enemy.id == Idea.deleteEnemy && Context.User.Id == Idea.deleteEnemyUserID)
+            {
+                Idea.deleteEnemy = 0;
+                Idea.deleteEnemyUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteEnemy(enemy);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted Item```");
+            }
+            else
+            {
+                Idea.deleteEnemy = enemy.id;
+                Idea.deleteEnemyUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await buildMessageEnemy(enemy);
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of the Enemy above, by typing the command again```");
+            }
+        }
+
+        public async Task DeleteAllIdeaBaby(string text)
+        {
+            int delRating = 0;
+            if (!int.TryParse(text, out delRating)) return;
+
+            if (Context.User.Id == Idea.deleteEnemyUserID)
+            {
+                Idea.deleteEnemyUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteAllBaby(delRating);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted all Babies with a rating of " +delRating+ " or lower```");
+            }
+            else
+            {
+                Idea.deleteEnemyUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of all Babies with a rating of " +delRating+ " or lower, by typing the command again```");
+            }
+            
+        }
+        private async Task DeleteAllIdeaItem(string text)
+        {
+            int delRating = 0;
+            if (!int.TryParse(text, out delRating)) return;
+
+            if (Context.User.Id == Idea.deleteItemUserID)
+            {
+                Idea.deleteItemUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteAllItem(delRating);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted all Items with a rating of " + delRating + " or lower```");
+            }
+            else
+            {
+                Idea.deleteItemUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of all Items with a rating of " + delRating + " or lower, by typing the command again```");
+            }
+        }
+        private async Task DeleteAllIdeaItemActive(string text)
+        {
+            int delRating = 0;
+            if (!int.TryParse(text, out delRating)) return;
+
+            if (Context.User.Id == Idea.deleteItemActiveUserID)
+            {
+                Idea.deleteItemActiveUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteAllItemActive(delRating);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted all Active Items with a rating of " + delRating + " or lower```");
+            }
+            else
+            {
+                Idea.deleteItemActiveUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of all Active Items with a rating of " + delRating + " or lower, by typing the command again```");
+            }
+        }
+        private async Task DeleteAllIdeaEnemy(string text)
+        {
+            int delRating = 0;
+            if (!int.TryParse(text, out delRating)) return;
+
+            if (Context.User.Id == Idea.deleteEnemyUserID)
+            {
+                Idea.deleteEnemyUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteAllEnemy(delRating);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted all Enemies with a rating of " + delRating + " or lower```");
+            }
+            else
+            {
+                Idea.deleteEnemyUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of all Enemies with a rating of " + delRating + " or lower, by typing the command again```");
+            }
+        }
+        private async Task DeleteAllIdea(string text)
+        {
+            int delRating = 0;
+            if (!int.TryParse(text, out delRating)) return;
+
+            if (Context.User.Id == Idea.deleteBabyUserID && Context.User.Id == Idea.deleteItemUserID && Context.User.Id == Idea.deleteItemActiveUserID && Context.User.Id == Idea.deleteEnemyUserID)
+            {
+                Idea.deleteBabyUserID = 0;
+                Idea.deleteItemUserID = 0;
+                Idea.deleteItemActiveUserID = 0;
+                Idea.deleteEnemyUserID = 0;
+                deletionTime.Stop();
+                Console.WriteLine("Delete confirmed");
+                await Idea.DeleteAllEnemy(delRating);
+                await Context.Channel.SendMessageAsync("```diff\n Succesfully deleted all Ideas with a rating of " + delRating + " or lower```");
+            }
+            else
+            {
+                Idea.deleteBabyUserID = Context.User.Id;
+                Idea.deleteItemUserID = Context.User.Id;
+                Idea.deleteItemActiveUserID = Context.User.Id;
+                Idea.deleteEnemyUserID = Context.User.Id;
+                deletionTime.Start();
+                Console.WriteLine("Waiting for delete confirmation");
+                await Context.Channel.SendMessageAsync("```diff\n Please confirm the deletion of all Ideas with a rating of " + delRating + " or lower, by typing the command again```");
+            }
         }
 
         private async Task<IUserMessage> buildMessageBaby(Baby baby)
