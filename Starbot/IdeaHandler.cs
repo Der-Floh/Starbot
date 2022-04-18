@@ -209,7 +209,6 @@ namespace Starbot
 
             if (baby.name.Length <= 2) return;
             if (baby.abilities.Length <= 2) return;
-            if (baby.firerate <= 0) return;
 
             stats[1] = baby.cost.ToString();
             stats[2] = baby.hp.ToString();
@@ -410,10 +409,17 @@ namespace Starbot
                     stats[i] = text.Substring(first, last - first);
                     stats[i] = stats[i].Replace("\n", "");
                     
+                    stats[i] = stats[i].Trim();
+                    /*
                     while (stats[i][0] == ' ')
                     {
                         stats[i] = stats[i].Remove(0, 1);
-                    }/*
+                    }
+                    while (stats[i][stats[i].Length - 1] == ' ')
+                    {
+                        stats[i] = stats[i].Remove(0, 1);
+                    }*/
+                    /*
                     if (stats[i][0] == ' ')
                     {
                         stats[i] = stats[i].Remove(0, 1);

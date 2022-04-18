@@ -151,7 +151,7 @@ Appearance= text
 !github-translations
 ```
 
-### 6. Sending links to wiki pages
+### 6. Sending links to wiki pages:
 ```
 !wiki  |  Sends the link to the I.Rule wiki
 ```
@@ -187,4 +187,56 @@ Appearance= text
 ```
 ```
 !wiki-effects  |  Sends the link to the I.Rule Effects wiki subpage
+```
+
+### 7. Admin only commands:
+#### Delete commands:
+```
+!delete-baby  |  Deletes the baby by entering the babies id or name:
+!delete-baby id/name  ->  where id is the discord message id
+```
+```
+!delete-item  |  Deletes the item by entering the items id or name:
+!delete-item id/name  ->  where id is the discord message id
+```
+```
+!delete-item-active  |  Deletes the active item by entering the items id or name:
+!delete-item-active id/name  ->  where id is the discord message id
+```
+```
+!delete-enemy  |  Deletes the enemy by entering the enemies id or name:
+!delete-enemy id/name  ->  where id is the discord message id
+```
+```
+!delete-baby-all  |  Deletes all babies with rating lower than the entered rateNo:
+!delete-baby-all ratingNo 
+```
+```
+!delete-item-all  |  Deletes all items with rating lower than the entered rateNo:
+!delete-item-all ratingNo
+```
+```
+!delete-item-active-all  |  Deletes all active items with rating lower than the entered rateNo:
+!delete-item-active-all ratingNo
+```
+```
+!delete-enemy-all  |  Deletes all enemies with rating lower than the entered rateNo:
+!delete-enemy-all ratingNo
+```
+```
+!delete-all  |  Deletes all ideas with rating lower than the entered rateNo:
+!delete-all ratingNo
+```
+#### Translations commands:
+```
+!translation-sync  |  Syncronizes the bots translation files with the translations on the I.Rule translations Github page:
+!translation-sync  ->  Can only sync translations which were already added to the bot by the translations add command
+```
+```
+!translation-add  |  Adds a translation to the bot which then can be synced with Github using the translations sync command:
+!translation-add en  ->  Adding only works if the added translation already exists on the I.Rule translations Github page
+```
+#### Emergency commands:
+```
+!killbot  |  Instantly kills the bot
 ```
